@@ -5,12 +5,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': '/src',
+      '@': './src',
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
+        // @ts-expect-error – missing type in Vite
         api: 'modern-compiler',
       },
     },
