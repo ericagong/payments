@@ -23,40 +23,21 @@ Step1: 카드 정보 입력
  └─ NextButton (필수 필드 충족 시 활성화)
 ```
 
-## 📘 구현 순서
-
-좋아, 은채야.
-**이게 훨씬 간결하고 실제 구현 흐름 그대로라서 Step1에 딱 맞아.**
-
-너가 정리한 순서를 기반으로,
-실제로 바로 따라 만들 수 있도록 **짧고 명확한 API 스타일 구현 순서**로 다시 정제해줄게.
-
----
-
-# 📘 **STEP1 구현 순서 (간결·실전형)**
+# 📘 구현 순서
 
 ## 1) **Primitive UI 만들기**
 
-> 스타일 최소, 기능 최소, 오직 UI 구조만 담당하는 컴포넌트들
+1. Slot 구조 도입
 
-**필수 Primitive**
+- composeProps
+- composeRefs
+- 단일 ReactElement 보장
 
-```txt
-<Input />
-<Label />
-<Button />
-<Box />
-<Flex />
-<CardPreview />   // 카드 UI 최소 버전
-```
+2. Primitives 컴포넌트 역할
 
-**역할**
-
-- 절대 로직 넣지 않음
-- OverlayInput과 조합될 수 있는 기본 UI
-- 스타일은 최소: border, padding 정도만
-
----
+- DOM 추상화 레이어 = DOM을 안전하고 일관되게 감싼 React Wrapper
+- props로 주입된 값들 자동 병합 반영
+- 스타일 갖지 않음
 
 ## 2) **Overlay 관련 로직 생성**
 

@@ -1,8 +1,8 @@
-@use './card.module.scss' as *;
-@use './input.module.scss' as *;
-@use './button.module.scss' as *;
-@use './modal.module.scss' as *;
-@use './utils.module.scss' as *;
+@use './card.scss' as *;
+@use './input.scss' as *;
+@use './button.scss' as *;
+@use './modal.scss' as *;
+@use './utils.scss' as *;
 
 body {
   display: flex;
