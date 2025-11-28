@@ -1,0 +1,44 @@
+# ============================
+# 📦 Dependencies
+# ============================
+
+# Node packages
+node_modules/
+
+# ============================
+# 🏗 Build Outputs
+# ============================
+
+# Vite build output
+dist/
+
+# Vite dev server cache
+.vite/
+
+# ============================
+# 🔍 Lint Caches
+# ============================
+
+# ESLint cache
+.eslintcache
+
+# Stylelint cache
+.stylelintcache
+
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# ============================
+# 🔐 Environment Files
+# ============================
+
+# Environment variables (Do NOT commit secrets)
+.env*
+
+
+# ============================
+# 🍎 macOS
+# ============================
+
+# macOS Finder file
+.DS_Store
