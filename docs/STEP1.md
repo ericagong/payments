@@ -41,14 +41,34 @@ Step1: 카드 정보 입력
 
 ## 2) **Overlay 관련 로직 생성**
 
-> 카드번호/만료일/CVC/비밀번호처럼 “포맷/마스킹/자동삽입”이 필요한 입력의 핵심 로직
+- overlayInput 핵심 역할
+  - RawInput과 DisplayLayer를 겹쳐서 렌더
+  - raw ↔ formatted sync
+  - caret mirror (커서 위치 유지 위해 raw input의 caret 위치를 display layer에 반영)
+  - asChild/Slot 지원
+- Display Layer
+  - masked + formatted Value
+  - caret mirror (커서 위치 맞춤용 텍스트)
+- Raw Input Layer
+  - 실제 사용자가 입력하는 input field
+  - rawValue 기반, onChange → rawValue 업데이트
+  - caret-color: black (텍스트는 투명)
 
 ### OverlayInput API
 
 ```tsx
-<OverlayInput.Root variant="single" | "multi" boxes={2?}>
-  <OverlayInput.Input />      // raw-only 입력
-  <OverlayInput.Display />    // masked/formatted overlay
+<OverlayInput.Root
+  variant='single' // 또는 "multi"
+  boxes={2} // multi일 때만 사용
+  value={raw}
+  onValueChange={setRaw}
+  maxLength={16}
+  format={formatFn}
+  mask={maskFn}
+>
+  <OverlayInput.Input index={0} />
+  <OverlayInput.Input index={1} />
+  <OverlayInput.Display />
 </OverlayInput.Root>
 ```
 
@@ -61,14 +81,6 @@ useOverlayInput({
   mask(formatted) => masked
 });
 ```
-
-**핵심 포인트**
-
-- caret jump 없음
-- raw만 state로 유지
-- multi-box (PIN/비번 2자리) 지원
-
----
 
 ## 3) **FormContext + registerField 구성**
 
