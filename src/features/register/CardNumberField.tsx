@@ -1,44 +1,14 @@
-import { useState } from 'react';
-import type { ChangeEvent, KeyboardEvent } from 'react';
-
-import useRovingFocus from '@/hooks/useRovingFocus';
+import useGroupedInput from '@/hooks/useGroupedInput';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
+import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 4;
-const DIGIT_COUNT = 4;
-
-const sanitizeNumeric = (value: string) => value.replace(/\D/g, '');
-const isFilled = (value: string) => value.length === MAX_LENGTH;
+const DIGIT_LENGTH = 4;
 
 const CardNumberField = () => {
-  const [digits, setDigits] = useState<string[]>(Array(DIGIT_COUNT).fill(''));
-  const { register, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
-
-  const updateDigit = (index: number, nextValue: string) => {
-    setDigits((prev) => {
-      const nextDigits = [...prev];
-      nextDigits[index] = nextValue;
-      return nextDigits;
-    });
-  };
-
-  const handleDigitChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
-    const sanitizedValue = sanitizeNumeric(event.target.value);
-
-    updateDigit(index, sanitizedValue);
-
-    if (isFilled(sanitizedValue)) {
-      focusNext(index);
-    }
-  };
-
-  const handleDigitKeyDown = (index: number) => (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Backspace' || digits[index]) return;
-
-    focusPrev(index);
-  };
+  const registerGroupedInput = useGroupedInput({ length: DIGIT_LENGTH, sanitize: onlyNumeric, maxLength: MAX_LENGTH });
 
   return (
     <Box className='field-container'>
@@ -46,49 +16,13 @@ const CardNumberField = () => {
         <Label>카드 번호</Label>
       </Box>
       <Box className='field-input-group-container merged'>
-        <Input
-          className='input-group-cell'
-          type='text'
-          inputMode='numeric'
-          ref={register(0)}
-          value={digits[0]}
-          onChange={handleDigitChange(0)}
-          onKeyDown={handleDigitKeyDown(0)}
-          maxLength={MAX_LENGTH}
-        />
+        <Input className='input-group-cell' type='text' inputMode='numeric' {...registerGroupedInput(0)} />
         <Box className='input-group-cell separator'>-</Box>
-        <Input
-          className='input-group-cell'
-          type='text'
-          inputMode='numeric'
-          ref={register(1)}
-          value={digits[1]}
-          onChange={handleDigitChange(1)}
-          onKeyDown={handleDigitKeyDown(1)}
-          maxLength={MAX_LENGTH}
-        />
+        <Input className='input-group-cell' type='text' inputMode='numeric' {...registerGroupedInput(1)} />
         <Box className='input-group-cell separator'>-</Box>
-        <Input
-          className='input-group-cell'
-          type='password'
-          inputMode='numeric'
-          ref={register(2)}
-          value={digits[2]}
-          onChange={handleDigitChange(2)}
-          onKeyDown={handleDigitKeyDown(2)}
-          maxLength={MAX_LENGTH}
-        />
+        <Input className='input-group-cell' type='password' inputMode='numeric' {...registerGroupedInput(2)} />
         <Box className='input-group-cell separator'>-</Box>
-        <Input
-          className='input-group-cell'
-          type='password'
-          inputMode='numeric'
-          ref={register(3)}
-          value={digits[3]}
-          onChange={handleDigitChange(3)}
-          onKeyDown={handleDigitKeyDown(3)}
-          maxLength={MAX_LENGTH}
-        />
+        <Input className='input-group-cell' type='password' inputMode='numeric' {...registerGroupedInput(3)} />
       </Box>
     </Box>
   );

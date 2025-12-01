@@ -5,7 +5,7 @@ import Label from '@/components/primitives/Label';
 
 const MAX_LENGTH = 30;
 const OwnerNameField = () => {
-  const { value, onChange } = useInput({ defaultValue: '' });
+  const { value, handleChange } = useInput({ defaultValue: '' });
 
   return (
     <Box className='field-container'>
@@ -17,7 +17,7 @@ const OwnerNameField = () => {
         className='field-input'
         type='text'
         placeholder='카드에 표시된 이름과 동일하게 입력하세요.'
-        onChange={onChange}
+        onChange={handleChange}
         maxLength={MAX_LENGTH}
       />
     </Box>

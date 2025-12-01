@@ -9,7 +9,7 @@ type UseInputProps = {
 const useInput = ({ defaultValue = '', sanitize }: UseInputProps) => {
   const [value, setValue] = useState(defaultValue);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
     const sanitizedValue = sanitize ? sanitize(rawValue) : rawValue;
     setValue(sanitizedValue);
@@ -17,7 +17,7 @@ const useInput = ({ defaultValue = '', sanitize }: UseInputProps) => {
 
   return {
     value,
-    onChange,
+    handleChange,
   };
 };
 
