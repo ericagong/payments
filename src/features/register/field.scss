@@ -40,12 +40,26 @@ $field-background-color: #ecebf1;
 
 .field-input-group-container {
   display: flex;
-  gap: 10px;
   width: 100%;
 
   > * {
     flex: 1 1 0;
     min-width: 45px;
+  }
+
+  &.seperated {
+    gap: 10px;
+  }
+
+  &.merged {
+    gap: 0;
+    overflow: hidden;
+    background-color: $field-background-color;
+    border-radius: 5px;
+
+    > * {
+      border-radius: 0;
+    }
   }
 }
 
@@ -53,13 +67,27 @@ $field-background-color: #ecebf1;
   @extend %input-base;
   padding: 0 20px;
 
-  &.dot {
+  &.filled {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
     font-weight: 800;
     background-color: transparent;
+  }
+
+  &.separator {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    align-items: center;
+    min-width: auto;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: $secondary-color;
+    background-color: transparent;
+    pointer-events: none;
   }
 }
 

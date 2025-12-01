@@ -5,13 +5,13 @@ import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
 
-const MAX_LENGTH = 1;
+const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
 
-const sanitizeNumeric = (value: string) => value.replace(/\D/g, '');
+const sanitizeNumeric = (value: string) => value.replace(/\D/g, '').slice(0, MAX_LENGTH);
 const isFilled = (value: string) => value.length === MAX_LENGTH;
 
-const PasswordField = () => {
+const ExpirationDateField = () => {
   const [digits, setDigits] = useState<string[]>(Array(DIGIT_COUNT).fill(''));
   const inputRefs = useRef<Array<HTMLInputElement | null>>(Array(DIGIT_COUNT).fill(null));
 
@@ -33,6 +33,14 @@ const PasswordField = () => {
 
   const handleDigitChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = sanitizeNumeric(event.target.value);
+
+    if (index === 0 && sanitizedValue.length === MAX_LENGTH) {
+      const monthNumber = Number(sanitizedValue);
+
+      if (monthNumber < 1 || monthNumber > 12) {
+        return;
+      }
+    }
 
     updateDigit(index, sanitizedValue);
 
@@ -63,32 +71,35 @@ const PasswordField = () => {
   return (
     <Box className='field-container' style={{ width: '50%' }}>
       <Box className='field-header'>
-        <Label>카드 비밀번호</Label>
+        <Label>만료일</Label>
       </Box>
-      <Box className='field-input-group-container seperated'>
+      <Box className='field-input-group-container merged'>
         <Input
           className='input-group-cell'
-          type='password'
+          type='text'
+          placeholder='MM'
+          inputMode='numeric'
           ref={registerInputRef(0)}
           value={digits[0]}
           onChange={handleDigitChange(0)}
           onKeyDown={handleDigitKeyDown(0)}
           maxLength={MAX_LENGTH}
         />
+        <Box className='input-group-cell separator'>/</Box>
         <Input
           className='input-group-cell'
-          type='password'
+          type='text'
+          placeholder='YY'
+          inputMode='numeric'
           ref={registerInputRef(1)}
           value={digits[1]}
           onChange={handleDigitChange(1)}
           onKeyDown={handleDigitKeyDown(1)}
           maxLength={MAX_LENGTH}
         />
-        <Box className='input-group-cell filled'>.</Box>
-        <Box className='input-group-cell filled'>.</Box>
       </Box>
     </Box>
   );
 };
 
-export default PasswordField;
+export default ExpirationDateField;
