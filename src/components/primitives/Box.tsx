@@ -1,4 +1,3 @@
-// src/components/primitives/box/Box.tsx
 import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
 

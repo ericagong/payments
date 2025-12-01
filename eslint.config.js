@@ -46,27 +46,6 @@ export default [
       react: { version: 'detect' },
     },
     rules: {
-      'padding-line-between-statements': [
-        'warn',
-        { blankLine: 'always', prev: 'import', next: '*' },
-        { blankLine: 'any', prev: 'import', next: 'import' },
-        { blankLine: 'always', prev: 'function', next: 'function' },
-        {
-          blankLine: 'always',
-          prev: ['const', 'let', 'var'],
-          next: ['if', 'for', 'function', 'switch', 'try', 'return', 'block-like'],
-        },
-        {
-          blankLine: 'always',
-          prev: ['if', 'for', 'while', 'switch', 'try'],
-          next: ['if', 'for', 'while', 'switch', 'try', 'function', 'block-like'],
-        },
-        { blankLine: 'always', prev: 'block-like', next: 'return' },
-        { blankLine: 'always', prev: '*', next: 'return' },
-        { blankLine: 'always', prev: ['const', 'let', 'var', 'function'], next: 'return' },
-        { blankLine: 'always', prev: 'return', next: 'return' },
-      ],
-
       // 일반 JS 규칙
       'no-console': 'warn',
       eqeqeq: 'error',

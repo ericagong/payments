@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
+import CardRegisterForm from '@/features/register/CardRegisterForm';
+
 const Page1 = () => {
   const navigate = useNavigate();
 
@@ -25,7 +27,9 @@ const Page1 = () => {
             </div>
           </div>
 
-          <div className='input-container'>
+          <CardRegisterForm />
+
+          {/* <div className='input-container'>
             <span className='input-title'>카드 번호</span>
             <div className='input-box'>
               <input className='input-basic' type='text' />
@@ -59,7 +63,7 @@ const Page1 = () => {
             <input className='input-basic w-15' type='password' />
             <input className='input-basic w-15' type='password' />
             <input className='input-basic w-15' type='password' />
-          </div>
+          </div> */}
 
           <div className='button-box' onClick={() => navigate('/add')}>
             <span className='button-text'>다음</span>

@@ -6,7 +6,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({ ...props }, ref) => {
-  return <input ref={ref} {...props} />;
+  return <input ref={ref} {...props} autoComplete='off' />;
 });
 
 Input.displayName = 'Input';
