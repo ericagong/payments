@@ -7,6 +7,7 @@ $field-background-color: #ecebf1;
   flex-direction: column;
   gap: 5px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .field-header {
@@ -32,45 +33,45 @@ $field-background-color: #ecebf1;
   outline: none;
 }
 
-.overlay-container {
-  position: relative;
-  width: 100%;
-  height: 45px;
-}
+// .overlay-container {
+//   position: relative;
+//   width: 100%;
+//   height: 45px;
+// }
 
-%field-base {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  text-align: center;
-}
+// %field-base {
+//   position: absolute;
+//   inset: 0;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   height: 100%;
+//   padding: 0;
+//   text-align: center;
+// }
 
-/* 실제 입력을 받는 Invisible Raw Layer */
-.raw {
-  @extend %field-base;
-  z-index: 0;
-  color: transparent;
-  background: transparent;
-  border: none;
-  outline: none;
-  caret-color: transparent;
-  pointer-events: none;
-}
+// /* 실제 입력을 받는 Invisible Raw Layer */
+// .raw {
+//   @extend %field-base;
+//   z-index: 0;
+//   color: transparent;
+//   background: transparent;
+//   border: none;
+//   outline: none;
+//   caret-color: transparent;
+//   pointer-events: none;
+// }
 
-/* 사용자에게 보이는 Display Layer */
-.display {
-  @extend %field-base;
-  z-index: 1;
-  color: $primary-color;
-  background-color: $field-background-color;
-  border: none;
-  border-radius: 0.25rem;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  pointer-events: auto;
-}
+// /* 사용자에게 보이는 Display Layer */
+// .display {
+//   @extend %field-base;
+//   z-index: 1;
+//   color: $primary-color;
+//   background-color: $field-background-color;
+//   border: none;
+//   border-radius: 0.25rem;
+//   outline: 2px solid transparent;
+//   outline-offset: 2px;
+//   pointer-events: auto;
+// }
