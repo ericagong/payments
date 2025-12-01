@@ -4,13 +4,18 @@ $tertiary-color: #a0a0a0;
 $dimmed-color: #e5e5e5;
 $app-background-color: #fff;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  box-sizing: border-box;
   background-color: $dimmed-color;
 }
 

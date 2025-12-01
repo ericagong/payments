@@ -23,7 +23,8 @@ $field-background-color: #ecebf1;
   font-weight: 500;
 }
 
-.field-input {
+%input-base {
+  box-sizing: border-box;
   height: 45px;
   padding: 0 10px;
   color: $primary-color;
@@ -31,6 +32,35 @@ $field-background-color: #ecebf1;
   border: none;
   border-radius: 5px;
   outline: none;
+}
+
+.field-input {
+  @extend %input-base;
+}
+
+.field-input-group-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+
+  > * {
+    flex: 1 1 0;
+    min-width: 45px;
+  }
+}
+
+.input-group-cell {
+  @extend %input-base;
+  padding: 0 20px;
+
+  &.dot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 800;
+    background-color: transparent;
+  }
 }
 
 // .overlay-container {

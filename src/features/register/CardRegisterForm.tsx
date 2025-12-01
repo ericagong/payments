@@ -1,5 +1,6 @@
 import SecurityCodeField from './SecurityCodeField';
 import OwnerNameField from './OwnerNameField';
+import PasswordField from './PasswordField';
 import './field.scss';
 
 const CardRegisterForm = () => {
@@ -7,6 +8,7 @@ const CardRegisterForm = () => {
     <form>
       <SecurityCodeField />
       <OwnerNameField />
+      <PasswordField />
     </form>
   );
 };
