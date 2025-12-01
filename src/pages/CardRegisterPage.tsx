@@ -28,7 +28,9 @@ const CardRegisterPage = () => {
             </div>
           </div> */}
 
-      <CardRegisterForm />
+      <main className='app-main'>
+        <CardRegisterForm />
+      </main>
 
       {/* <div className='input-container'>
             <span className='input-title'>카드 번호</span>

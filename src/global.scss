@@ -10,6 +10,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  box-sizing: border-box;
   background-color: $dimmed-color;
 }
 
@@ -26,7 +27,6 @@ body {
   height: 100%;
   padding: 30px 24px;
   font-size: 16px;
-  font-weight: 400;
 }
 
 .app-header {
@@ -59,6 +59,12 @@ button {
     color: $primary-color;
     transform: scale(1.1);
   }
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
 }
 
 .app-footer {

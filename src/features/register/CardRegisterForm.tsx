@@ -1,9 +1,10 @@
-import ExpirationDateField from './ExpirationDateField';
+import OwnerNameField from './OwnerNameField';
+import './field.scss';
 
 const CardRegisterForm = () => {
   return (
     <form>
-      <ExpirationDateField />
+      <OwnerNameField />
     </form>
   );
 };
