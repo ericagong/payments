@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
+import useRovingFocus from '@/hooks/useRovingFocus';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
@@ -13,15 +14,7 @@ const isFilled = (value: string) => value.length === MAX_LENGTH;
 
 const PasswordField = () => {
   const [digits, setDigits] = useState<string[]>(Array(DIGIT_COUNT).fill(''));
-  const inputRefs = useRef<Array<HTMLInputElement | null>>(Array(DIGIT_COUNT).fill(null));
-
-  const registerInputRef = (index: number) => (node: HTMLInputElement | null) => {
-    inputRefs.current[index] = node;
-  };
-
-  const focusInput = (index: number) => {
-    inputRefs.current[index]?.focus();
-  };
+  const { register, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
 
   const updateDigit = (index: number, nextValue: string) => {
     setDigits((prev) => {
@@ -37,7 +30,7 @@ const PasswordField = () => {
     updateDigit(index, sanitizedValue);
 
     if (isFilled(sanitizedValue)) {
-      focusInput(index + 1);
+      focusNext(index);
     }
   };
 
@@ -57,7 +50,7 @@ const PasswordField = () => {
 
     event.preventDefault();
     updateDigit(previousIndex, '');
-    focusInput(previousIndex);
+    focusPrev(index);
   };
 
   return (
@@ -69,7 +62,7 @@ const PasswordField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={registerInputRef(0)}
+          ref={register(0)}
           value={digits[0]}
           onChange={handleDigitChange(0)}
           onKeyDown={handleDigitKeyDown(0)}
@@ -78,7 +71,7 @@ const PasswordField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={registerInputRef(1)}
+          ref={register(1)}
           value={digits[1]}
           onChange={handleDigitChange(1)}
           onKeyDown={handleDigitKeyDown(1)}
