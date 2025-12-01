@@ -1,5 +1,11 @@
+import ExpirationDateField from './ExpirationDateField';
+
 const CardRegisterForm = () => {
-  return <form />;
+  return (
+    <form>
+      <ExpirationDateField />
+    </form>
+  );
 };
 
 export default CardRegisterForm;

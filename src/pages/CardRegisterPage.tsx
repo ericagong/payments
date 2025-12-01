@@ -1,18 +1,19 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import CardRegisterForm from '@/features/register/CardRegisterForm';
+import Button from '@/components/primitives/Button';
 
-const Page1 = () => {
+const CardRegisterPage = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <h2>1️⃣ 카드 추가</h2>
-      <div className='root'>
-        <div className='app'>
-          <h2 className='page-title'>카드 추가</h2>
+      <header className='app-header'>
+        <Button className='to-prev' onClick={() => navigate('/list')} />
+        <div className='title'>카드 추가</div>
+      </header>
 
-          <div className='card-box'>
+      {/* <div className='card-box'>
             <div className='empty-card'>
               <div className='card-top' />
               <div className='card-middle'>
@@ -25,11 +26,11 @@ const Page1 = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <CardRegisterForm />
+      <CardRegisterForm />
 
-          {/* <div className='input-container'>
+      {/* <div className='input-container'>
             <span className='input-title'>카드 번호</span>
             <div className='input-box'>
               <input className='input-basic' type='text' />
@@ -65,13 +66,13 @@ const Page1 = () => {
             <input className='input-basic w-15' type='password' />
           </div> */}
 
-          <div className='button-box' onClick={() => navigate('/add')}>
-            <span className='button-text'>다음</span>
-          </div>
-        </div>
-      </div>
+      <footer className='app-footer'>
+        <Button className='to-next' onClick={() => navigate('/registered')}>
+          다음
+        </Button>
+      </footer>
     </>
   );
 };
 
-export default Page1;
+export default CardRegisterPage;

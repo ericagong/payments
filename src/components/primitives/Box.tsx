@@ -1,19 +1,13 @@
 import { forwardRef } from 'react';
 import type { HTMLAttributes } from 'react';
 
-import Slot from './Slot';
+type BoxProps = HTMLAttributes<HTMLDivElement>;
 
-type BoxProps = HTMLAttributes<HTMLDivElement> & {
-  asChild?: boolean;
-};
-
-const Box = forwardRef<HTMLDivElement, BoxProps>(({ asChild, children, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'div';
-
+const Box = forwardRef<HTMLDivElement, BoxProps>(({ children, ...props }, ref) => {
   return (
-    <Comp ref={ref} {...props}>
+    <div ref={ref} {...props}>
       {children}
-    </Comp>
+    </div>
   );
 });
 
