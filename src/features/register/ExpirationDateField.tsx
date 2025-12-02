@@ -17,7 +17,7 @@ const validate = (value: number) => {
 
 const ExpirationDateField = () => {
   const { values, setValue } = useInputs({ length: DIGIT_COUNT });
-  const { register, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
+  const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
 
   const createChangeHandler = (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = onlyNumeric(e.target.value);
@@ -49,7 +49,7 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='MM'
           inputMode='numeric'
-          ref={register(0)}
+          ref={attachRef(0)}
           value={values[0]}
           onChange={createChangeHandler(0)}
           onKeyDown={createKeyDownHandler(0)}
@@ -61,7 +61,7 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='YY'
           inputMode='numeric'
-          ref={register(1)}
+          ref={attachRef(1)}
           value={values[1]}
           onChange={createChangeHandler(1)}
           onKeyDown={createKeyDownHandler(1)}

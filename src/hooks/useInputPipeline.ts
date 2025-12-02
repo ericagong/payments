@@ -1,61 +1,40 @@
 import { useRef } from 'react';
 
-import { toArray } from '@/utils';
-
-type RawValue = string;
-type DomainValue = any;
-
-type PipelineState = {
-  rawValue: RawValue;
-  domainValue?: DomainValue;
-  hasError: boolean;
-};
-
-type Step = (state: PipelineState) => PipelineState;
+type SanitizeFn = (value: string) => string;
+type NormalizeFn = (value: string) => string;
+type AdvanceFn = (value: string) => boolean;
 
 type Steps = {
-  sanitize?: Step | Step[];
-  normalize?: Step | Step[];
-  transform?: Step | Step[];
-  update?: Step | Step[];
-  advance?: Step | Step[];
+  sanitize?: SanitizeFn;
+  normalize?: NormalizeFn;
+  advance?: AdvanceFn;
 };
 
-type UseInputPipelineProps = Steps;
-
-const createInitialState = (rawValue: RawValue): PipelineState => ({
-  rawValue,
-  domainValue: undefined,
-  hasError: false,
-});
-
-const runStep = (prevState: PipelineState, step: Step): PipelineState => {
-  if (prevState.hasError) return prevState;
-
-  try {
-    return step(prevState);
-  } catch {
-    return { ...prevState, hasError: true };
-  }
+type PipelineState = {
+  value: string;
+  shouldAdvance: boolean;
 };
 
-const initializePipeline = (steps: Steps) =>
-  [
-    ...toArray(steps.sanitize),
-    ...toArray(steps.normalize),
-    ...toArray(steps.transform),
-    ...toArray(steps.update),
-    ...toArray(steps.advance),
-  ] as Step[];
+const useInputPipeline = (steps: Steps = {}) => {
+  const sanitizeRef = useRef(steps.sanitize);
+  const normalizeRef = useRef(steps.normalize);
+  const advanceRef = useRef(steps.advance);
 
-const useInputPipeline = (steps: UseInputPipelineProps = {}) => {
-  const stepsRef = useRef<Step[]>(initializePipeline(steps));
+  const runSteps = (initialValue: string): PipelineState => {
+    let value = initialValue;
 
-  const runSteps = (rawValue: string) =>
-    stepsRef.current.reduce(
-      (pipelineState, currStep) => runStep(pipelineState, currStep),
-      createInitialState(rawValue),
-    );
+    if (sanitizeRef.current) {
+      value = sanitizeRef.current(value);
+    }
+
+    if (normalizeRef.current) {
+      value = normalizeRef.current(value);
+    }
+
+    const shouldAdvance = advanceRef.current ? advanceRef.current(value) : false;
+
+    return { value, shouldAdvance };
+  };
 
   return { runSteps };
 };

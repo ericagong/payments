@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import useInputField from '@/hooks/useInputField';
 import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
@@ -9,20 +7,10 @@ import Label from '@/components/primitives/Label';
 const MAX_LENGTH = 3;
 
 const SecurityCodeField = () => {
-  const [value, setValue] = useState('');
-
-  const { register } = useInputField({
-    value,
-    setValue,
+  const { value, onChange } = useInputField({
     steps: {
-      sanitize: (s) => ({
-        ...s,
-        rawValue: onlyNumeric(s.rawValue),
-      }),
-      normalize: (s) => ({
-        ...s,
-        rawValue: s.rawValue.slice(0, MAX_LENGTH),
-      }),
+      sanitize: (raw) => onlyNumeric(raw),
+      normalize: (raw) => raw.slice(0, MAX_LENGTH),
     },
   });
 
@@ -31,7 +19,14 @@ const SecurityCodeField = () => {
       <Box className='field-header'>
         <Label>보안 코드(CVC/CVV)</Label>
       </Box>
-      <Input className='field-input' type='password' inputMode='numeric' {...register()} />
+      <Input
+        className='field-input'
+        type='password'
+        inputMode='numeric'
+        value={value}
+        onChange={onChange}
+        maxLength={MAX_LENGTH}
+      />
     </Box>
   );
 };

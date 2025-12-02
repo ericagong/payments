@@ -7,7 +7,7 @@ type UseRovingFocusOptions = {
 };
 
 type UseRovingFocusReturn = {
-  register: (index: number) => (node: HTMLElement | null) => void;
+  attachRef: (index: number) => ($element: HTMLElement | null) => void;
   focusNext: (index: number) => void;
   focusPrev: (index: number) => void;
 };
@@ -15,21 +15,21 @@ type UseRovingFocusReturn = {
 const useRovingFocus = ({ length }: UseRovingFocusOptions): UseRovingFocusReturn => {
   const refs = useRef<Array<HTMLElement | null>>(Array.from({ length }, () => null));
 
-  const register = useCallback(
-    (index: number) => (node: HTMLElement | null) => {
-      refs.current[index] = node;
+  const attachRef = useCallback(
+    (index: number) => ($element: HTMLElement | null) => {
+      refs.current[index] = $element;
     },
     [],
   );
 
-  const focus = useCallback((index: number) => refs.current[clamp(index, length)]?.focus(), [length]);
+  const focusAt = useCallback((index: number) => refs.current[clamp(index, length)]?.focus(), [length]);
 
-  const focusNext = useCallback((index: number) => focus(index + 1), [focus]);
+  const focusNext = useCallback((index: number) => focusAt(index + 1), [focusAt]);
 
-  const focusPrev = useCallback((index: number) => focus(index - 1), [focus]);
+  const focusPrev = useCallback((index: number) => focusAt(index - 1), [focusAt]);
 
   return {
-    register,
+    attachRef,
     focusNext,
     focusPrev,
   };

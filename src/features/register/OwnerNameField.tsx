@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import useInputField from '@/hooks/useInputField';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
@@ -8,16 +6,9 @@ import Label from '@/components/primitives/Label';
 const MAX_LENGTH = 30;
 
 const OwnerNameField = () => {
-  const [value, setValue] = useState('');
-
-  const { register } = useInputField({
-    value,
-    setValue,
+  const { value, onChange } = useInputField({
     steps: {
-      normalize: (state) => ({
-        ...state,
-        rawValue: state.rawValue.slice(0, MAX_LENGTH),
-      }),
+      normalize: (raw) => raw.slice(0, MAX_LENGTH),
     },
   });
 
@@ -31,7 +22,9 @@ const OwnerNameField = () => {
         className='field-input'
         type='text'
         placeholder='카드에 표시된 이름과 동일하게 입력하세요.'
-        {...register()}
+        value={value}
+        onChange={onChange}
+        maxLength={MAX_LENGTH}
       />
     </Box>
   );
