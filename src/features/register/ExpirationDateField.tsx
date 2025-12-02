@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
+import useInputs from '@/hooks/useInputs';
+import { onlyNumeric } from '@/utils';
 import useRovingFocus from '@/hooks/useRovingFocus';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
@@ -8,44 +9,33 @@ import Label from '@/components/primitives/Label';
 
 const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
-
-const sanitizeNumeric = (value: string) => value.replace(/\D/g, '').slice(0, MAX_LENGTH);
-const isFilled = (value: string) => value.length === MAX_LENGTH;
+const toNext = (value: string) => value.length === MAX_LENGTH;
+const toPrev = (value: string) => value.length === 0;
+const validate = (value: number) => {
+  return 1 <= value && value <= 12;
+};
 
 const ExpirationDateField = () => {
-  const [digits, setDigits] = useState<string[]>(Array(DIGIT_COUNT).fill(''));
+  const { values, setValue } = useInputs({ length: DIGIT_COUNT });
   const { register, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
 
-  const updateDigit = (index: number, nextValue: string) => {
-    setDigits((prev) => {
-      const nextDigits = [...prev];
-      nextDigits[index] = nextValue;
-      return nextDigits;
-    });
-  };
+  const createChangeHandler = (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
+    const sanitizedValue = onlyNumeric(e.target.value);
 
-  const handleDigitChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
-    const sanitizedValue = sanitizeNumeric(event.target.value);
+    if (index === 0 && toNext(sanitizedValue) && !validate(Number(sanitizedValue))) return;
 
-    if (index === 0 && sanitizedValue.length === MAX_LENGTH) {
-      const monthNumber = Number(sanitizedValue);
+    setValue(index, sanitizedValue);
 
-      if (monthNumber < 1 || monthNumber > 12) {
-        return;
-      }
-    }
-
-    updateDigit(index, sanitizedValue);
-
-    if (isFilled(sanitizedValue)) {
+    if (toNext(sanitizedValue)) {
       focusNext(index);
     }
   };
 
-  const handleDigitKeyDown = (index: number) => (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Backspace' || digits[index]) return;
-
-    focusPrev(index);
+  const createKeyDownHandler = (index: number) => (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Backspace' && toPrev(values[index])) {
+      e.preventDefault();
+      focusPrev(index);
+    }
   };
 
   return (
@@ -60,9 +50,9 @@ const ExpirationDateField = () => {
           placeholder='MM'
           inputMode='numeric'
           ref={register(0)}
-          value={digits[0]}
-          onChange={handleDigitChange(0)}
-          onKeyDown={handleDigitKeyDown(0)}
+          value={values[0]}
+          onChange={createChangeHandler(0)}
+          onKeyDown={createKeyDownHandler(0)}
           maxLength={MAX_LENGTH}
         />
         <Box className='input-group-cell separator'>/</Box>
@@ -72,9 +62,9 @@ const ExpirationDateField = () => {
           placeholder='YY'
           inputMode='numeric'
           ref={register(1)}
-          value={digits[1]}
-          onChange={handleDigitChange(1)}
-          onKeyDown={handleDigitKeyDown(1)}
+          value={values[1]}
+          onChange={createChangeHandler(1)}
+          onKeyDown={createKeyDownHandler(1)}
           maxLength={MAX_LENGTH}
         />
       </Box>

@@ -6,9 +6,10 @@ import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 4;
 const DIGIT_LENGTH = 4;
+const toNext = (value: string) => value.length === MAX_LENGTH;
 
 const CardNumberField = () => {
-  const registerGroupedInput = useGroupedInput({ length: DIGIT_LENGTH, sanitize: onlyNumeric, maxLength: MAX_LENGTH });
+  const registerGroupedInput = useGroupedInput({ length: DIGIT_LENGTH, sanitize: onlyNumeric, toNext });
 
   return (
     <Box className='field-container'>
@@ -16,11 +17,29 @@ const CardNumberField = () => {
         <Label>카드 번호</Label>
       </Box>
       <Box className='field-input-group-container merged'>
-        <Input className='input-group-cell' type='text' inputMode='numeric' {...registerGroupedInput(0)} />
+        <Input
+          className='input-group-cell'
+          type='text'
+          inputMode='numeric'
+          maxLength={MAX_LENGTH}
+          {...registerGroupedInput(0)}
+        />
         <Box className='input-group-cell separator'>-</Box>
-        <Input className='input-group-cell' type='text' inputMode='numeric' {...registerGroupedInput(1)} />
+        <Input
+          className='input-group-cell'
+          type='text'
+          inputMode='numeric'
+          maxLength={MAX_LENGTH}
+          {...registerGroupedInput(1)}
+        />
         <Box className='input-group-cell separator'>-</Box>
-        <Input className='input-group-cell' type='password' inputMode='numeric' {...registerGroupedInput(2)} />
+        <Input
+          className='input-group-cell'
+          type='password'
+          inputMode='numeric'
+          maxLength={MAX_LENGTH}
+          {...registerGroupedInput(2)}
+        />
         <Box className='input-group-cell separator'>-</Box>
         <Input className='input-group-cell' type='password' inputMode='numeric' {...registerGroupedInput(3)} />
       </Box>

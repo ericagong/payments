@@ -16,7 +16,14 @@ const SecurityCodeField = () => {
       <Box className='field-header'>
         <Label>보안 코드(CVC/CVV)</Label>
       </Box>
-      <Input className='field-input' type='password' value={value} onChange={handleChange} maxLength={MAX_LENGTH} />
+      <Input
+        className='field-input'
+        type='password'
+        inputMode='numeric'
+        value={value}
+        onChange={handleChange}
+        maxLength={MAX_LENGTH}
+      />
     </Box>
   );
 };
