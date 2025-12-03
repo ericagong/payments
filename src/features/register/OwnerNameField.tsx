@@ -1,15 +1,13 @@
-import useInputField from '@/hooks/useInputField';
+import useField from '@/hooks/useField';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
+import { maxLength } from '@/utils';
 
 const MAX_LENGTH = 30;
-
 const OwnerNameField = () => {
-  const { value, onChange } = useInputField({
-    steps: {
-      normalize: (raw) => raw.slice(0, MAX_LENGTH),
-    },
+  const { value, onChange } = useField({
+    sanitizer: maxLength(MAX_LENGTH),
   });
 
   return (

@@ -1,39 +1,34 @@
-import { onlyNumeric } from '@/utils';
+import { onlyNumeric, maxLength, required } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useInputField from '@/hooks/useInputField';
+import useField from '@/hooks/useField';
+import useAutoNavigation from '@/hooks/useAutoNavigation';
 import useRovingFocus from '@/hooks/useRovingFocus';
-import useBackspaceToPrev from '@/hooks/useBackspaceToPrev';
 
 const GROUP_SIZE = 2;
 const MAX_LENGTH = 1;
-const isFull = (value: string) => value.length === MAX_LENGTH;
-const isEmpty = (value: string) => value.length === 0;
 
 const PasswordField = () => {
+  const firstDigit = useField({
+    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+    validator: required,
+  });
+
+  const secondDigit = useField({
+    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+    validator: required,
+  });
+
   const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: GROUP_SIZE });
 
-  const { value: firstDigit, onChange: onChangeFirstDigit } = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, MAX_LENGTH),
-      advance: isFull,
-    },
-    onAdvance: () => {
-      focusNext(0);
-    },
+  useAutoNavigation({
+    whenNext: () => firstDigit.value.length === MAX_LENGTH,
+    onNext: () => focusNext(0),
   });
 
-  const { value: secondDigit, onChange: onChangeSecondDigit } = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, MAX_LENGTH),
-    },
-  });
-
-  const { onKeyDown: onKeyDownSecondDigit } = useBackspaceToPrev({
-    shouldMovePrev: () => isEmpty(secondDigit),
+  const secondDigitNavigator = useAutoNavigation({
+    whenPrev: () => secondDigit.value.length === 0,
     onPrev: () => focusPrev(1),
   });
 
@@ -48,19 +43,23 @@ const PasswordField = () => {
           type='password'
           inputMode='numeric'
           ref={attachRef(0)}
-          value={firstDigit}
+          value={firstDigit.value}
+          onChange={firstDigit.onChange}
+          onBlur={firstDigit.onBlur}
           maxLength={MAX_LENGTH}
-          onChange={onChangeFirstDigit}
+          required
         />
         <Input
           className='field-input'
           type='password'
           inputMode='numeric'
           ref={attachRef(1)}
-          value={secondDigit}
+          value={secondDigit.value}
+          onChange={secondDigit.onChange}
+          onBlur={secondDigit.onBlur}
+          onKeyDown={secondDigitNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
-          onChange={onChangeSecondDigit}
-          onKeyDown={onKeyDownSecondDigit}
+          required
         />
         <Box className='input-group-cell filled'>.</Box>
         <Box className='input-group-cell filled'>.</Box>

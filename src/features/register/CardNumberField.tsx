@@ -1,66 +1,62 @@
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import { onlyNumeric } from '@/utils';
-import useInputField from '@/hooks/useInputField';
+import { onlyNumeric, maxLength, required } from '@/utils';
+import useField from '@/hooks/useField';
+import useAutoNavigation from '@/hooks/useAutoNavigation';
 import useRovingFocus from '@/hooks/useRovingFocus';
-import useBackspaceToPrev from '@/hooks/useBackspaceToPrev';
 
-const DIGITS = 4;
 const GROUP_SIZE = 4;
-
-const isFull = (v: string) => v.length === GROUP_SIZE;
-const isEmpty = (v: string) => v.length === 0;
+const DIGITS = 4;
 
 const CardNumberField = () => {
-  const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: DIGITS });
-
-  const cell1 = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, GROUP_SIZE),
-      advance: isFull,
-    },
-    onAdvance: () => focusNext(0),
+  const { attachRef, focusNext, focusPrev } = useRovingFocus({
+    length: DIGITS,
   });
 
-  const cell2 = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, GROUP_SIZE),
-      advance: isFull,
-    },
-    onAdvance: () => focusNext(1),
+  const cell1 = useField({
+    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
+    validator: required,
   });
 
-  const cell3 = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, GROUP_SIZE),
-      advance: isFull,
-    },
-    onAdvance: () => focusNext(2),
+  const cell2 = useField({
+    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
+    validator: required,
   });
 
-  const cell4 = useInputField({
-    steps: {
-      sanitize: onlyNumeric,
-      normalize: (raw) => raw.slice(0, GROUP_SIZE),
-    },
+  const cell3 = useField({
+    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
+    validator: required,
   });
 
-  const back2 = useBackspaceToPrev({
-    shouldMovePrev: () => isEmpty(cell2.value),
+  const cell4 = useField({
+    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
+    validator: required,
+  });
+
+  useAutoNavigation({
+    whenNext: () => cell1.value.length === GROUP_SIZE,
+    onNext: () => focusNext(0),
+  });
+
+  const nav2 = useAutoNavigation({
+    whenNext: () => cell2.value.length === GROUP_SIZE,
+    onNext: () => focusNext(1),
+    whenPrev: () => cell2.value.length === 0,
     onPrev: () => focusPrev(1),
   });
 
-  const back3 = useBackspaceToPrev({
-    shouldMovePrev: () => isEmpty(cell3.value),
+  const nav3 = useAutoNavigation({
+    whenNext: () => cell3.value.length === GROUP_SIZE,
+    onNext: () => focusNext(2),
+    whenPrev: () => cell3.value.length === 0,
     onPrev: () => focusPrev(2),
   });
 
-  const back4 = useBackspaceToPrev({
-    shouldMovePrev: () => isEmpty(cell4.value),
+  const nav4 = useAutoNavigation({
+    whenNext: () => cell4.value.length === GROUP_SIZE,
+    onNext: () => focusNext(3),
+    whenPrev: () => cell4.value.length === 0,
     onPrev: () => focusPrev(3),
   });
 
@@ -69,7 +65,6 @@ const CardNumberField = () => {
       <Box className='field-header'>
         <Label>카드 번호</Label>
       </Box>
-
       <Box className='field-input-group-container merged'>
         <Input
           className='input-group-cell'
@@ -79,6 +74,7 @@ const CardNumberField = () => {
           maxLength={GROUP_SIZE}
           value={cell1.value}
           onChange={cell1.onChange}
+          onBlur={cell1.onBlur}
         />
 
         <Box className='input-group-cell separator'>-</Box>
@@ -91,11 +87,10 @@ const CardNumberField = () => {
           maxLength={GROUP_SIZE}
           value={cell2.value}
           onChange={cell2.onChange}
-          onKeyDown={back2.onKeyDown}
+          onBlur={cell2.onBlur}
+          onKeyDown={nav2.onKeyDown}
         />
-
         <Box className='input-group-cell separator'>-</Box>
-
         <Input
           className='input-group-cell'
           type='password'
@@ -104,11 +99,10 @@ const CardNumberField = () => {
           maxLength={GROUP_SIZE}
           value={cell3.value}
           onChange={cell3.onChange}
-          onKeyDown={back3.onKeyDown}
+          onBlur={cell3.onBlur}
+          onKeyDown={nav3.onKeyDown}
         />
-
         <Box className='input-group-cell separator'>-</Box>
-
         <Input
           className='input-group-cell'
           type='password'
@@ -117,7 +111,8 @@ const CardNumberField = () => {
           maxLength={GROUP_SIZE}
           value={cell4.value}
           onChange={cell4.onChange}
-          onKeyDown={back4.onKeyDown}
+          onBlur={cell4.onBlur}
+          onKeyDown={nav4.onKeyDown}
         />
       </Box>
     </Box>

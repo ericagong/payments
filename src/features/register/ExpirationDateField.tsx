@@ -1,42 +1,42 @@
-import type { ChangeEvent, KeyboardEvent } from 'react';
-
-import useInputs from '@/hooks/useInputs';
-import { onlyNumeric } from '@/utils';
-import useRovingFocus from '@/hooks/useRovingFocus';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
+import useField from '@/hooks/useField';
+import useAutoNavigation from '@/hooks/useAutoNavigation';
+import useRovingFocus from '@/hooks/useRovingFocus';
+import { onlyNumeric, maxLength } from '@/utils';
 
 const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
-const toNext = (value: string) => value.length === MAX_LENGTH;
-const toPrev = (value: string) => value.length === 0;
-const validate = (value: number) => {
-  return 1 <= value && value <= 12;
-};
+
+const isMonth = (value: string) => 1 <= Number(value) && Number(value) <= 12;
 
 const ExpirationDateField = () => {
-  const { values, setValue } = useInputs({ length: DIGIT_COUNT });
-  const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: DIGIT_COUNT });
+  const { attachRef, focusNext, focusPrev } = useRovingFocus({
+    length: DIGIT_COUNT,
+  });
 
-  const createChangeHandler = (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
-    const sanitizedValue = onlyNumeric(e.target.value);
+  const month = useField({
+    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+    normalizer: (value) => value.padStart(2, '0'),
+    validator: isMonth,
+  });
 
-    if (index === 0 && toNext(sanitizedValue) && !validate(Number(sanitizedValue))) return;
+  const year = useField({
+    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+  });
 
-    setValue(index, sanitizedValue);
+  useAutoNavigation({
+    whenNext: () => month.value.length === MAX_LENGTH,
+    onNext: () => {
+      focusNext(0);
+    },
+  });
 
-    if (toNext(sanitizedValue)) {
-      focusNext(index);
-    }
-  };
-
-  const createKeyDownHandler = (index: number) => (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && toPrev(values[index])) {
-      e.preventDefault();
-      focusPrev(index);
-    }
-  };
+  const navYear = useAutoNavigation({
+    whenPrev: () => year.value.length === 0,
+    onPrev: () => focusPrev(1),
+  });
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -48,24 +48,27 @@ const ExpirationDateField = () => {
           className='input-group-cell'
           type='text'
           placeholder='MM'
-          inputMode='numeric'
           ref={attachRef(0)}
-          value={values[0]}
-          onChange={createChangeHandler(0)}
-          onKeyDown={createKeyDownHandler(0)}
+          value={month.value}
+          onChange={month.onChange}
+          onBlur={month.onBlur}
           maxLength={MAX_LENGTH}
+          required
+          inputMode='numeric'
         />
         <Box className='input-group-cell separator'>/</Box>
         <Input
           className='input-group-cell'
           type='text'
           placeholder='YY'
-          inputMode='numeric'
           ref={attachRef(1)}
-          value={values[1]}
-          onChange={createChangeHandler(1)}
-          onKeyDown={createKeyDownHandler(1)}
+          value={year.value}
+          onChange={year.onChange}
+          onBlur={year.onBlur}
+          onKeyDown={navYear.onKeyDown}
           maxLength={MAX_LENGTH}
+          required
+          inputMode='numeric'
         />
       </Box>
     </Box>

@@ -1,5 +1,5 @@
-import useInputField from '@/hooks/useInputField';
-import { onlyNumeric } from '@/utils';
+import useField from '@/hooks/useField';
+import { onlyNumeric, maxLength, required } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
@@ -7,11 +7,9 @@ import Label from '@/components/primitives/Label';
 const MAX_LENGTH = 3;
 
 const SecurityCodeField = () => {
-  const { value, onChange } = useInputField({
-    steps: {
-      sanitize: (raw) => onlyNumeric(raw),
-      normalize: (raw) => raw.slice(0, MAX_LENGTH),
-    },
+  const { value, onChange } = useField({
+    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+    validator: required,
   });
 
   return (
@@ -26,6 +24,7 @@ const SecurityCodeField = () => {
         value={value}
         onChange={onChange}
         maxLength={MAX_LENGTH}
+        required
       />
     </Box>
   );
