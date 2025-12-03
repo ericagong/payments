@@ -2,9 +2,8 @@ import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useField from '@/hooks/useField';
-import useAutoNavigation from '@/hooks/useAutoNavigation';
-import useRovingFocus from '@/hooks/useRovingFocus';
+import useField from '@/hooks/atomic/useField';
+import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
 
 const GROUP_SIZE = 2;
 const MAX_LENGTH = 1;
@@ -22,17 +21,7 @@ const PasswordField = () => {
     maxLength: MAX_LENGTH,
   });
 
-  const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: GROUP_SIZE });
-
-  const firstDigitNavigator = useAutoNavigation({
-    shouldMoveNext: () => firstDigitField.flags.isCompleted,
-    onMoveNext: () => focusNext(0),
-  });
-
-  const secondDigitNavigator = useAutoNavigation({
-    shouldMovePrev: () => secondDigitField.flags.isEmpty,
-    onMovePrev: () => focusPrev(1),
-  });
+  const { registerRefs, navigationHandlers } = useGroupNavigator([firstDigitField, secondDigitField]);
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -43,9 +32,9 @@ const PasswordField = () => {
         <Input
           className='field-input'
           type='password'
-          ref={attachRef(0)}
+          ref={registerRefs(0)}
           {...firstDigitField.register}
-          {...firstDigitNavigator.register}
+          {...navigationHandlers[0]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -53,9 +42,9 @@ const PasswordField = () => {
         <Input
           className='field-input'
           type='password'
-          ref={attachRef(1)}
+          ref={registerRefs(1)}
           {...secondDigitField.register}
-          {...secondDigitNavigator.register}
+          {...navigationHandlers[1]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'

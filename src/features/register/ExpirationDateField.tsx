@@ -1,42 +1,32 @@
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useField from '@/hooks/useField';
-import useAutoNavigation from '@/hooks/useAutoNavigation';
-import useRovingFocus from '@/hooks/useRovingFocus';
+import useField from '@/hooks/atomic/useField';
+import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
 import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
 
 const ExpirationDateField = () => {
-  const { attachRef, focusNext, focusPrev } = useRovingFocus({
-    length: DIGIT_COUNT,
-  });
+  const fields = [
+    useField({
+      sanitize: onlyNumeric,
+      required: true,
+      maxLength: MAX_LENGTH,
+      normalize: (value) => value.padStart(2, '0'),
+      validate: (value) => 1 <= Number(value) && Number(value) <= 12,
+    }),
+    useField({
+      sanitize: onlyNumeric,
+      required: true,
+      maxLength: MAX_LENGTH,
+      normalize: (value) => value.padStart(2, '0'),
+      validate: (value) => 1 <= Number(value) && Number(value) <= 12,
+    }),
+  ];
 
-  const monthField = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: MAX_LENGTH,
-    normalize: (value) => value.padStart(2, '0'),
-    validate: (value) => 1 <= Number(value) && Number(value) <= 12,
-  });
-
-  const yearField = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: MAX_LENGTH,
-  });
-
-  const monthNavigator = useAutoNavigation({
-    shouldMoveNext: () => monthField.flags.isCompleted,
-    onMoveNext: () => focusNext(0),
-  });
-
-  const yearNavigator = useAutoNavigation({
-    shouldMovePrev: () => yearField.flags.isEmpty,
-    onMovePrev: () => focusPrev(1),
-  });
+  const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -48,9 +38,9 @@ const ExpirationDateField = () => {
           className='input-group-cell'
           type='text'
           placeholder='MM'
-          ref={attachRef(0)}
-          {...monthField.register}
-          {...monthNavigator.register}
+          ref={registerRefs(0)}
+          {...fields[0].register}
+          {...navigationHandlers[0]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -60,9 +50,9 @@ const ExpirationDateField = () => {
           className='input-group-cell'
           type='text'
           placeholder='YY'
-          ref={attachRef(1)}
-          {...yearField.register}
-          {...yearNavigator.register}
+          ref={registerRefs(1)}
+          {...fields[1].register}
+          {...navigationHandlers[1]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'

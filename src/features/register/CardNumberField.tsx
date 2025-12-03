@@ -2,63 +2,24 @@ import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
 import { onlyNumeric } from '@/utils';
-import useField from '@/hooks/useField';
-import useAutoNavigation from '@/hooks/useAutoNavigation';
-import useRovingFocus from '@/hooks/useRovingFocus';
+import useField from '@/hooks/atomic/useField';
+import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
 
-const GROUP_SIZE = 4;
 const DIGITS = 4;
 
 const CardNumberField = () => {
-  const { attachRef, focusNext, focusPrev } = useRovingFocus({
-    length: GROUP_SIZE,
-  });
+  const fields = [
+    useField({
+      sanitize: onlyNumeric,
+      required: true,
+      maxLength: DIGITS,
+    }),
+    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
+    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
+    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
+  ];
 
-  const cell1Field = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: DIGITS,
-  });
-
-  const cell2Field = useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS });
-
-  const cell3Field = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: DIGITS,
-  });
-
-  const cell4Field = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: DIGITS,
-  });
-
-  const cell1Navigator = useAutoNavigation({
-    shouldMoveNext: () => cell1Field.flags.isCompleted,
-    onMoveNext: () => focusNext(0),
-  });
-
-  const cell2Navigator = useAutoNavigation({
-    shouldMoveNext: () => cell2Field.flags.isCompleted,
-    onMoveNext: () => focusNext(1),
-    shouldMovePrev: () => cell2Field.flags.isEmpty,
-    onMovePrev: () => focusPrev(1),
-  });
-
-  const cell3Navigator = useAutoNavigation({
-    shouldMoveNext: () => cell3Field.flags.isCompleted,
-    onMoveNext: () => focusNext(2),
-    shouldMovePrev: () => cell3Field.flags.isEmpty,
-    onMovePrev: () => focusPrev(2),
-  });
-
-  const cell4Navigator = useAutoNavigation({
-    shouldMoveNext: () => cell4Field.flags.isCompleted,
-    onMoveNext: () => focusNext(3),
-    shouldMovePrev: () => cell4Field.flags.isEmpty,
-    onMovePrev: () => focusPrev(3),
-  });
+  const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
 
   return (
     <Box className='field-container'>
@@ -69,9 +30,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          ref={attachRef(0)}
-          {...cell1Field.register}
-          {...cell1Navigator.register}
+          ref={registerRefs(0)}
+          {...fields[0].register}
+          {...navigationHandlers[0]}
           maxLength={DIGITS}
           required
           inputMode='numeric'
@@ -82,9 +43,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          ref={attachRef(1)}
-          {...cell2Field.register}
-          {...cell2Navigator.register}
+          ref={registerRefs(1)}
+          {...fields[1].register}
+          {...navigationHandlers[1]}
           maxLength={DIGITS}
           required
           inputMode='numeric'
@@ -93,9 +54,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={attachRef(2)}
-          {...cell3Field.register}
-          {...cell3Navigator.register}
+          ref={registerRefs(2)}
+          {...fields[2].register}
+          {...navigationHandlers[2]}
           inputMode='numeric'
           maxLength={DIGITS}
           required
@@ -104,9 +65,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={attachRef(3)}
-          {...cell4Field.register}
-          {...cell4Navigator.register}
+          ref={registerRefs(3)}
+          {...fields[3].register}
+          {...navigationHandlers[3]}
           inputMode='numeric'
           maxLength={DIGITS}
           required

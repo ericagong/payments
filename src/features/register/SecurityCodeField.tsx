@@ -1,4 +1,4 @@
-import useField from '@/hooks/useField';
+import useField from '@/hooks/atomic/useField';
 import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
