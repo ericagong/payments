@@ -10,13 +10,13 @@ const GROUP_SIZE = 2;
 const MAX_LENGTH = 1;
 
 const PasswordField = () => {
-  const firstDigit = useField({
+  const firstDigitField = useField({
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
   });
 
-  const secondDigit = useField({
+  const secondDigitField = useField({
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
@@ -25,13 +25,13 @@ const PasswordField = () => {
   const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: GROUP_SIZE });
 
   const firstDigitNavigator = useAutoNavigation({
-    shouldTriggerNext: () => firstDigit.flags.isCompleted,
-    onNext: () => focusNext(0),
+    shouldMoveNext: () => firstDigitField.flags.isCompleted,
+    onMoveNext: () => focusNext(0),
   });
 
   const secondDigitNavigator = useAutoNavigation({
-    shouldTriggerPrev: () => secondDigit.flags.isEmpty,
-    onPrev: () => focusPrev(1),
+    shouldMovePrev: () => secondDigitField.flags.isEmpty,
+    onMovePrev: () => focusPrev(1),
   });
 
   return (
@@ -44,8 +44,8 @@ const PasswordField = () => {
           className='field-input'
           type='password'
           ref={attachRef(0)}
-          {...firstDigit.register}
-          onKeyDown={firstDigitNavigator.onKeyDown}
+          {...firstDigitField.register}
+          {...firstDigitNavigator.register}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -54,8 +54,8 @@ const PasswordField = () => {
           className='field-input'
           type='password'
           ref={attachRef(1)}
-          {...secondDigit.register}
-          onKeyDown={secondDigitNavigator.onKeyDown}
+          {...secondDigitField.register}
+          {...secondDigitNavigator.register}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'

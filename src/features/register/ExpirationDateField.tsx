@@ -14,7 +14,7 @@ const ExpirationDateField = () => {
     length: DIGIT_COUNT,
   });
 
-  const month = useField({
+  const monthField = useField({
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
@@ -22,20 +22,20 @@ const ExpirationDateField = () => {
     validate: (value) => 1 <= Number(value) && Number(value) <= 12,
   });
 
-  const year = useField({
+  const yearField = useField({
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
   });
 
   const monthNavigator = useAutoNavigation({
-    shouldTriggerNext: () => month.flags.isCompleted,
-    onNext: () => focusNext(0),
+    shouldMoveNext: () => monthField.flags.isCompleted,
+    onMoveNext: () => focusNext(0),
   });
 
   const yearNavigator = useAutoNavigation({
-    shouldTriggerPrev: () => year.flags.isEmpty,
-    onPrev: () => focusPrev(1),
+    shouldMovePrev: () => yearField.flags.isEmpty,
+    onMovePrev: () => focusPrev(1),
   });
 
   return (
@@ -49,8 +49,8 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='MM'
           ref={attachRef(0)}
-          {...month.register}
-          onKeyDown={monthNavigator.onKeyDown}
+          {...monthField.register}
+          {...monthNavigator.register}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -61,8 +61,8 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='YY'
           ref={attachRef(1)}
-          {...year.register}
-          onKeyDown={yearNavigator.onKeyDown}
+          {...yearField.register}
+          {...yearNavigator.register}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
