@@ -24,13 +24,13 @@ const PasswordField = () => {
 
   const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: GROUP_SIZE });
 
-  useAutoNavigation({
-    whenNext: () => firstDigit.flags.isCompleted,
+  const firstDigitNavigator = useAutoNavigation({
+    shouldTriggerNext: () => firstDigit.flags.isCompleted,
     onNext: () => focusNext(0),
   });
 
   const secondDigitNavigator = useAutoNavigation({
-    whenPrev: () => secondDigit.flags.isEmpty,
+    shouldTriggerPrev: () => secondDigit.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
@@ -43,21 +43,22 @@ const PasswordField = () => {
         <Input
           className='field-input'
           type='password'
-          inputMode='numeric'
           ref={attachRef(0)}
           {...firstDigit.register}
+          onKeyDown={firstDigitNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
           required
+          inputMode='numeric'
         />
         <Input
           className='field-input'
           type='password'
-          inputMode='numeric'
           ref={attachRef(1)}
           {...secondDigit.register}
           onKeyDown={secondDigitNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
           required
+          inputMode='numeric'
         />
         <Box className='input-group-cell filled'>.</Box>
         <Box className='input-group-cell filled'>.</Box>

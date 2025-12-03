@@ -34,29 +34,29 @@ const CardNumberField = () => {
     maxLength: DIGITS,
   });
 
-  useAutoNavigation({
-    whenNext: () => cell1.flags.isCompleted,
+  const cell1Navigator = useAutoNavigation({
+    shouldTriggerNext: () => cell1.flags.isCompleted,
     onNext: () => focusNext(0),
   });
 
-  const nav2 = useAutoNavigation({
-    whenNext: () => cell2.flags.isCompleted,
+  const cell2Navigator = useAutoNavigation({
+    shouldTriggerNext: () => cell2.flags.isCompleted,
     onNext: () => focusNext(1),
-    whenPrev: () => cell2.flags.isEmpty,
+    shouldTriggerPrev: () => cell2.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
-  const nav3 = useAutoNavigation({
-    whenNext: () => cell3.flags.isCompleted,
+  const cell3Navigator = useAutoNavigation({
+    shouldTriggerNext: () => cell3.flags.isCompleted,
     onNext: () => focusNext(2),
-    whenPrev: () => cell3.flags.isEmpty,
+    shouldTriggerPrev: () => cell3.flags.isEmpty,
     onPrev: () => focusPrev(2),
   });
 
-  const nav4 = useAutoNavigation({
-    whenNext: () => cell4.flags.isCompleted,
+  const cell4Navigator = useAutoNavigation({
+    shouldTriggerNext: () => cell4.flags.isCompleted,
     onNext: () => focusNext(3),
-    whenPrev: () => cell4.flags.isEmpty,
+    shouldTriggerPrev: () => cell4.flags.isEmpty,
     onPrev: () => focusPrev(3),
   });
 
@@ -69,10 +69,12 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          inputMode='numeric'
           ref={attachRef(0)}
-          maxLength={DIGITS}
           {...cell1.register}
+          onKeyDown={cell1Navigator.onKeyDown}
+          maxLength={DIGITS}
+          required
+          inputMode='numeric'
         />
 
         <Box className='input-group-cell separator'>-</Box>
@@ -80,31 +82,34 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          inputMode='numeric'
           ref={attachRef(1)}
-          maxLength={DIGITS}
           {...cell2.register}
-          onKeyDown={nav2.onKeyDown}
+          onKeyDown={cell2Navigator.onKeyDown}
+          maxLength={DIGITS}
+          required
+          inputMode='numeric'
         />
         <Box className='input-group-cell separator'>-</Box>
         <Input
           className='input-group-cell'
           type='password'
-          inputMode='numeric'
           ref={attachRef(2)}
-          maxLength={DIGITS}
           {...cell3.register}
-          onKeyDown={nav3.onKeyDown}
+          onKeyDown={cell3Navigator.onKeyDown}
+          inputMode='numeric'
+          maxLength={DIGITS}
+          required
         />
         <Box className='input-group-cell separator'>-</Box>
         <Input
           className='input-group-cell'
           type='password'
-          inputMode='numeric'
           ref={attachRef(3)}
-          maxLength={DIGITS}
           {...cell4.register}
-          onKeyDown={nav4.onKeyDown}
+          onKeyDown={cell4Navigator.onKeyDown}
+          inputMode='numeric'
+          maxLength={DIGITS}
+          required
         />
       </Box>
     </Box>

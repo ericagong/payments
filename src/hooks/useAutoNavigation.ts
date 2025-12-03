@@ -1,30 +1,29 @@
-import { useEffect } from 'react';
 import type { KeyboardEvent } from 'react';
 
+import { shouldNotTrigger, doNothing } from '@/utils';
+
 type UseAutoNavigationParams = {
-  whenNext?: () => boolean;
+  shouldTriggerNext?: () => boolean;
   onNext?: () => void;
-  whenPrev?: () => boolean;
+  shouldTriggerPrev?: () => boolean;
   onPrev?: () => void;
 };
 
-const useAutoNavigation = ({ whenNext, onNext, whenPrev, onPrev }: UseAutoNavigationParams) => {
-  useEffect(() => {
-    if (whenNext && onNext && whenNext()) {
-      onNext();
-    }
-  }, [whenNext, onNext]);
-
-  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace') {
-      if (whenPrev && onPrev && whenPrev()) {
-        e.preventDefault();
-        onPrev();
-      }
+const useAutoNavigation = ({
+  shouldTriggerNext = shouldNotTrigger,
+  onNext = doNothing,
+  shouldTriggerPrev = shouldNotTrigger,
+  onPrev = doNothing,
+}: UseAutoNavigationParams) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Backspace') {
+      if (shouldTriggerNext()) onNext();
+    } else {
+      if (shouldTriggerPrev()) onPrev();
     }
   };
 
-  return { onKeyDown };
+  return { onKeyDown: handleKeyDown };
 };
 
 export default useAutoNavigation;

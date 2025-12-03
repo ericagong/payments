@@ -28,15 +28,13 @@ const ExpirationDateField = () => {
     maxLength: MAX_LENGTH,
   });
 
-  useAutoNavigation({
-    whenNext: () => month.flags.isCompleted,
-    onNext: () => {
-      focusNext(0);
-    },
+  const monthNavigator = useAutoNavigation({
+    shouldTriggerNext: () => month.flags.isCompleted,
+    onNext: () => focusNext(0),
   });
 
-  const navYear = useAutoNavigation({
-    whenPrev: () => year.flags.isEmpty,
+  const yearNavigator = useAutoNavigation({
+    shouldTriggerPrev: () => year.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
@@ -52,6 +50,7 @@ const ExpirationDateField = () => {
           placeholder='MM'
           ref={attachRef(0)}
           {...month.register}
+          onKeyDown={monthNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -63,7 +62,7 @@ const ExpirationDateField = () => {
           placeholder='YY'
           ref={attachRef(1)}
           {...year.register}
-          onKeyDown={navYear.onKeyDown}
+          onKeyDown={yearNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
