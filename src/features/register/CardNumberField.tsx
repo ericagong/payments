@@ -1,7 +1,7 @@
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import { onlyNumeric, maxLength, required } from '@/utils';
+import { onlyNumeric } from '@/utils';
 import useField from '@/hooks/useField';
 import useAutoNavigation from '@/hooks/useAutoNavigation';
 import useRovingFocus from '@/hooks/useRovingFocus';
@@ -11,52 +11,52 @@ const DIGITS = 4;
 
 const CardNumberField = () => {
   const { attachRef, focusNext, focusPrev } = useRovingFocus({
-    length: DIGITS,
+    length: GROUP_SIZE,
   });
 
   const cell1 = useField({
-    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
-    validator: required,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
-  const cell2 = useField({
-    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
-    validator: required,
-  });
+  const cell2 = useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS });
 
   const cell3 = useField({
-    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
-    validator: required,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
   const cell4 = useField({
-    sanitizer: [onlyNumeric, maxLength(GROUP_SIZE)],
-    validator: required,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
   useAutoNavigation({
-    whenNext: () => cell1.value.length === GROUP_SIZE,
+    whenNext: () => cell1.flags.isCompleted,
     onNext: () => focusNext(0),
   });
 
   const nav2 = useAutoNavigation({
-    whenNext: () => cell2.value.length === GROUP_SIZE,
+    whenNext: () => cell2.flags.isCompleted,
     onNext: () => focusNext(1),
-    whenPrev: () => cell2.value.length === 0,
+    whenPrev: () => cell2.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
   const nav3 = useAutoNavigation({
-    whenNext: () => cell3.value.length === GROUP_SIZE,
+    whenNext: () => cell3.flags.isCompleted,
     onNext: () => focusNext(2),
-    whenPrev: () => cell3.value.length === 0,
+    whenPrev: () => cell3.flags.isEmpty,
     onPrev: () => focusPrev(2),
   });
 
   const nav4 = useAutoNavigation({
-    whenNext: () => cell4.value.length === GROUP_SIZE,
+    whenNext: () => cell4.flags.isCompleted,
     onNext: () => focusNext(3),
-    whenPrev: () => cell4.value.length === 0,
+    whenPrev: () => cell4.flags.isEmpty,
     onPrev: () => focusPrev(3),
   });
 
@@ -71,10 +71,8 @@ const CardNumberField = () => {
           type='text'
           inputMode='numeric'
           ref={attachRef(0)}
-          maxLength={GROUP_SIZE}
-          value={cell1.value}
-          onChange={cell1.onChange}
-          onBlur={cell1.onBlur}
+          maxLength={DIGITS}
+          {...cell1.register}
         />
 
         <Box className='input-group-cell separator'>-</Box>
@@ -84,10 +82,8 @@ const CardNumberField = () => {
           type='text'
           inputMode='numeric'
           ref={attachRef(1)}
-          maxLength={GROUP_SIZE}
-          value={cell2.value}
-          onChange={cell2.onChange}
-          onBlur={cell2.onBlur}
+          maxLength={DIGITS}
+          {...cell2.register}
           onKeyDown={nav2.onKeyDown}
         />
         <Box className='input-group-cell separator'>-</Box>
@@ -96,10 +92,8 @@ const CardNumberField = () => {
           type='password'
           inputMode='numeric'
           ref={attachRef(2)}
-          maxLength={GROUP_SIZE}
-          value={cell3.value}
-          onChange={cell3.onChange}
-          onBlur={cell3.onBlur}
+          maxLength={DIGITS}
+          {...cell3.register}
           onKeyDown={nav3.onKeyDown}
         />
         <Box className='input-group-cell separator'>-</Box>
@@ -108,10 +102,8 @@ const CardNumberField = () => {
           type='password'
           inputMode='numeric'
           ref={attachRef(3)}
-          maxLength={GROUP_SIZE}
-          value={cell4.value}
-          onChange={cell4.onChange}
-          onBlur={cell4.onBlur}
+          maxLength={DIGITS}
+          {...cell4.register}
           onKeyDown={nav4.onKeyDown}
         />
       </Box>

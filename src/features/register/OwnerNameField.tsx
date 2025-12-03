@@ -2,26 +2,25 @@ import useField from '@/hooks/useField';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import { maxLength } from '@/utils';
 
 const MAX_LENGTH = 30;
 const OwnerNameField = () => {
-  const { value, onChange } = useField({
-    sanitizer: maxLength(MAX_LENGTH),
+  const { register } = useField({
+    maxLength: MAX_LENGTH,
+    required: true,
   });
 
   return (
     <Box className='field-container'>
       <Box className='field-header'>
         <Label>카드 소유자 이름(선택)</Label>
-        <Box className='field-description'>{`${value.length}/${MAX_LENGTH}`}</Box>
+        <Box className='field-description'>{`${register.value.length}/${MAX_LENGTH}`}</Box>
       </Box>
       <Input
         className='field-input'
         type='text'
         placeholder='카드에 표시된 이름과 동일하게 입력하세요.'
-        value={value}
-        onChange={onChange}
+        {...register}
         maxLength={MAX_LENGTH}
       />
     </Box>

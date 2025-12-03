@@ -4,12 +4,10 @@ import Label from '@/components/primitives/Label';
 import useField from '@/hooks/useField';
 import useAutoNavigation from '@/hooks/useAutoNavigation';
 import useRovingFocus from '@/hooks/useRovingFocus';
-import { onlyNumeric, maxLength } from '@/utils';
+import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
-
-const isMonth = (value: string) => 1 <= Number(value) && Number(value) <= 12;
 
 const ExpirationDateField = () => {
   const { attachRef, focusNext, focusPrev } = useRovingFocus({
@@ -17,24 +15,28 @@ const ExpirationDateField = () => {
   });
 
   const month = useField({
-    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
-    normalizer: (value) => value.padStart(2, '0'),
-    validator: isMonth,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
+    normalize: (value) => value.padStart(2, '0'),
+    validate: (value) => 1 <= Number(value) && Number(value) <= 12,
   });
 
   const year = useField({
-    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
 
   useAutoNavigation({
-    whenNext: () => month.value.length === MAX_LENGTH,
+    whenNext: () => month.flags.isCompleted,
     onNext: () => {
       focusNext(0);
     },
   });
 
   const navYear = useAutoNavigation({
-    whenPrev: () => year.value.length === 0,
+    whenPrev: () => year.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
@@ -49,9 +51,7 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='MM'
           ref={attachRef(0)}
-          value={month.value}
-          onChange={month.onChange}
-          onBlur={month.onBlur}
+          {...month.register}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -62,9 +62,7 @@ const ExpirationDateField = () => {
           type='text'
           placeholder='YY'
           ref={attachRef(1)}
-          value={year.value}
-          onChange={year.onChange}
-          onBlur={year.onBlur}
+          {...year.register}
           onKeyDown={navYear.onKeyDown}
           maxLength={MAX_LENGTH}
           required

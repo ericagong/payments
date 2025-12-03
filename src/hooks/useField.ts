@@ -1,62 +1,78 @@
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
 
-type Sanitizer = (raw: string) => string;
-type Normalizer = (value: string) => string;
-type Validator = (value: string) => boolean;
-
 type UseFieldParams = {
-  sanitizer?: Sanitizer | Sanitizer[];
-  normalizer?: Normalizer;
-  validator?: Validator;
+  sanitize?: (value: string) => string;
+  normalize?: (value: string) => string;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  validate?: (value: string) => boolean;
   defaultValue?: string;
 };
 
-const useField = ({ sanitizer, normalizer, validator, defaultValue = '' }: UseFieldParams) => {
-  const [value, setValue] = useState(defaultValue);
-  const [isDirty, setIsDirty] = useState(false); // defaultValue !== value 최초 발생 여부
-  const [isTouched, setIsTouched] = useState(false); // onBlur 최초 발생 여부
+const identity = (value: string) => value;
 
-  const setValueWithDirtyCheck = (next: string) => {
-    if (!isDirty && next !== defaultValue) {
-      setIsDirty(true);
-    }
+const useField = ({
+  sanitize = identity,
+  normalize = identity,
+  required = false,
+  minLength = 0,
+  maxLength = Infinity,
+  validate = () => true,
+  defaultValue = '',
+}: UseFieldParams) => {
+  const [value, setValue] = useState(defaultValue);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+
+  const isEmpty = value.length === 0;
+  const isCompleted = Number.isFinite(maxLength) && value.length === maxLength;
+
+  const isValid = (() => {
+    const rules = [required && !isEmpty, value.length >= minLength, value.length <= maxLength, validate(value)];
+
+    return rules.every(Boolean);
+  })();
+
+  const updateValue = (next: string) => {
+    if (!isDirty && next !== defaultValue) setIsDirty(true);
     setValue(next);
   };
 
-  const isValid = validator ? validator(value) : true;
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
 
-  const sanitize = (rawValue: string) => {
-    if (!sanitizer) return rawValue;
-    if (Array.isArray(sanitizer)) {
-      return sanitizer.reduce((acc, fn) => fn(acc), rawValue);
-    }
-    return sanitizer(rawValue);
+    const transformSteps = [sanitize, (v: string) => v.slice(0, maxLength)];
+
+    const transformedValue = transformSteps.reduce((acc, step) => step(acc), raw);
+
+    updateValue(transformedValue);
   };
 
-  const normalize = () => {
-    if (!normalizer) return;
-    setValueWithDirtyCheck(normalizer(value));
-  };
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value;
-    setValueWithDirtyCheck(sanitize(rawValue));
-  };
-
-  const onBlur = () => {
+  const handleBlur = () => {
     if (!isTouched) setIsTouched(true);
-    normalize();
+
+    const normalizedValue = normalize(value);
+
+    updateValue(normalizedValue);
   };
 
-  return {
+  const register = {
     value,
-    onChange,
-    onBlur,
+    onChange: handleChange,
+    onBlur: handleBlur,
+  };
+
+  const flags = {
     isValid,
     isDirty,
     isTouched,
+    isEmpty,
+    isCompleted,
   };
+
+  return { register, flags };
 };
 
 export default useField;

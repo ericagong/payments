@@ -1,5 +1,5 @@
 import useField from '@/hooks/useField';
-import { onlyNumeric, maxLength, required } from '@/utils';
+import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
@@ -7,9 +7,10 @@ import Label from '@/components/primitives/Label';
 const MAX_LENGTH = 3;
 
 const SecurityCodeField = () => {
-  const { value, onChange } = useField({
-    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
-    validator: required,
+  const { register } = useField({
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
 
   return (
@@ -21,8 +22,7 @@ const SecurityCodeField = () => {
         className='field-input'
         type='password'
         inputMode='numeric'
-        value={value}
-        onChange={onChange}
+        {...register}
         maxLength={MAX_LENGTH}
         required
       />

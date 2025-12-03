@@ -1,4 +1,4 @@
-import { onlyNumeric, maxLength, required } from '@/utils';
+import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
@@ -11,24 +11,26 @@ const MAX_LENGTH = 1;
 
 const PasswordField = () => {
   const firstDigit = useField({
-    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
-    validator: required,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
 
   const secondDigit = useField({
-    sanitizer: [onlyNumeric, maxLength(MAX_LENGTH)],
-    validator: required,
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
 
   const { attachRef, focusNext, focusPrev } = useRovingFocus({ length: GROUP_SIZE });
 
   useAutoNavigation({
-    whenNext: () => firstDigit.value.length === MAX_LENGTH,
+    whenNext: () => firstDigit.flags.isCompleted,
     onNext: () => focusNext(0),
   });
 
   const secondDigitNavigator = useAutoNavigation({
-    whenPrev: () => secondDigit.value.length === 0,
+    whenPrev: () => secondDigit.flags.isEmpty,
     onPrev: () => focusPrev(1),
   });
 
@@ -43,9 +45,7 @@ const PasswordField = () => {
           type='password'
           inputMode='numeric'
           ref={attachRef(0)}
-          value={firstDigit.value}
-          onChange={firstDigit.onChange}
-          onBlur={firstDigit.onBlur}
+          {...firstDigit.register}
           maxLength={MAX_LENGTH}
           required
         />
@@ -54,9 +54,7 @@ const PasswordField = () => {
           type='password'
           inputMode='numeric'
           ref={attachRef(1)}
-          value={secondDigit.value}
-          onChange={secondDigit.onChange}
-          onBlur={secondDigit.onBlur}
+          {...secondDigit.register}
           onKeyDown={secondDigitNavigator.onKeyDown}
           maxLength={MAX_LENGTH}
           required
