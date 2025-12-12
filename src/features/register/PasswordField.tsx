@@ -2,26 +2,25 @@ import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useField from '@/hooks/atomic/useField';
-import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
+import useFormController from '@/hooks/feature/useFormController';
 
-const GROUP_SIZE = 2;
 const MAX_LENGTH = 1;
 
 const PasswordField = () => {
-  const firstDigitField = useField({
+  const [firstDigitFieldProps] = useFormController({
+    name: 'firstPasswordDigit',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
+  });
+  const [secondDigitFieldProps] = useFormController({
+    name: 'secondPasswordDigit',
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
   });
 
-  const secondDigitField = useField({
-    sanitize: onlyNumeric,
-    required: true,
-    maxLength: MAX_LENGTH,
-  });
-
-  const { registerRefs, navigationHandlers } = useGroupNavigator([firstDigitField, secondDigitField]);
+  // const { registerRefs, navigationHandlers } = useGroupNavigator([firstDigitField, secondDigitField]);
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -32,9 +31,9 @@ const PasswordField = () => {
         <Input
           className='field-input'
           type='password'
-          ref={registerRefs(0)}
-          {...firstDigitField.register}
-          {...navigationHandlers[0]}
+          // ref={registerRefs(0)}
+          {...firstDigitFieldProps}
+          // {...navigationHandlers[0]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -42,9 +41,9 @@ const PasswordField = () => {
         <Input
           className='field-input'
           type='password'
-          ref={registerRefs(1)}
-          {...secondDigitField.register}
-          {...navigationHandlers[1]}
+          // ref={registerRefs(1)}
+          {...secondDigitFieldProps}
+          // {...navigationHandlers[1]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'

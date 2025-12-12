@@ -1,4 +1,5 @@
-import useField from '@/hooks/atomic/useField';
+// import useField from '@/hooks/atomic/useFieldLogic';
+import useFormController from '@/hooks/feature/useFormController';
 import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
@@ -7,7 +8,8 @@ import Label from '@/components/primitives/Label';
 const MAX_LENGTH = 3;
 
 const SecurityCodeField = () => {
-  const { register } = useField({
+  const [fieldProps] = useFormController({
+    name: 'securityCode',
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
@@ -22,7 +24,7 @@ const SecurityCodeField = () => {
         className='field-input'
         type='password'
         inputMode='numeric'
-        {...register}
+        {...fieldProps}
         maxLength={MAX_LENGTH}
         required
       />

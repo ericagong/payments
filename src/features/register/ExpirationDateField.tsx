@@ -1,32 +1,36 @@
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useField from '@/hooks/atomic/useField';
-import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
+// import useField from '@/hooks/atomic/useFieldLogic';
+// import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
 import { onlyNumeric } from '@/utils';
+import useFormController from '@/hooks/feature/useFormController';
 
 const MAX_LENGTH = 2;
 const DIGIT_COUNT = 2;
 
 const ExpirationDateField = () => {
-  const fields = [
-    useField({
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: MAX_LENGTH,
-      normalize: (value) => value.padStart(2, '0'),
-      validate: (value) => 1 <= Number(value) && Number(value) <= 12,
-    }),
-    useField({
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: MAX_LENGTH,
-      normalize: (value) => value.padStart(2, '0'),
-      validate: (value) => 1 <= Number(value) && Number(value) <= 12,
-    }),
-  ];
+  const [monthFieldProps] = useFormController({
+    name: 'month',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
+    normalize: (value) => value.padStart(DIGIT_COUNT, '0'),
+    validate: (value) => {
+      if (1 <= Number(value) && Number(value) <= 12) return '';
+      return '월은 1~12 사이의 값이어야 합니다.';
+    },
+  });
 
-  const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
+  const [yearFieldProps] = useFormController({
+    name: 'year',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
+    normalize: (value) => value.padStart(DIGIT_COUNT, '0'),
+  });
+
+  // const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -38,9 +42,9 @@ const ExpirationDateField = () => {
           className='input-group-cell'
           type='text'
           placeholder='MM'
-          ref={registerRefs(0)}
-          {...fields[0].register}
-          {...navigationHandlers[0]}
+          // ref={registerRefs(0)}
+          {...monthFieldProps}
+          // {...navigationHandlers[0]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
@@ -50,9 +54,9 @@ const ExpirationDateField = () => {
           className='input-group-cell'
           type='text'
           placeholder='YY'
-          ref={registerRefs(1)}
-          {...fields[1].register}
-          {...navigationHandlers[1]}
+          // ref={registerRefs(1)}
+          {...yearFieldProps}
+          // {...navigationHandlers[1]}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'

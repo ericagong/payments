@@ -2,24 +2,40 @@ import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
 import { onlyNumeric } from '@/utils';
-import useField from '@/hooks/atomic/useField';
-import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
+// import useField from '@/hooks/atomic/useFieldLogic';
+// import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
+import useFormController from '@/hooks/feature/useFormController';
 
 const DIGITS = 4;
 
 const CardNumberField = () => {
-  const fields = [
-    useField({
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: DIGITS,
-    }),
-    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
-    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
-    useField({ sanitize: onlyNumeric, required: true, maxLength: DIGITS }),
-  ];
+  const [firstCardNumberDigitProps] = useFormController({
+    name: 'firstCardNumberDigit',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
+  });
+  const [secondCardNumberDigitProps] = useFormController({
+    name: 'secondCardNumberDigit',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
+  });
 
-  const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
+  const [thirdCardNumberDigitProps] = useFormController({
+    name: 'thirdCardNumberDigit',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
+  });
+  const [fourthCardNumberDigitProps] = useFormController({
+    name: 'fourthCardNumberDigit',
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
+  });
+
+  // const { registerRefs, navigationHandlers } = useGroupNavigator(fields);
 
   return (
     <Box className='field-container'>
@@ -30,9 +46,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          ref={registerRefs(0)}
-          {...fields[0].register}
-          {...navigationHandlers[0]}
+          // ref={registerRefs(0)}
+          {...firstCardNumberDigitProps}
+          // {...navigationHandlers[0]}
           maxLength={DIGITS}
           required
           inputMode='numeric'
@@ -43,9 +59,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='text'
-          ref={registerRefs(1)}
-          {...fields[1].register}
-          {...navigationHandlers[1]}
+          // ref={registerRefs(1)}
+          {...secondCardNumberDigitProps}
+          // {...navigationHandlers[1]}
           maxLength={DIGITS}
           required
           inputMode='numeric'
@@ -54,9 +70,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={registerRefs(2)}
-          {...fields[2].register}
-          {...navigationHandlers[2]}
+          // ref={registerRefs(2)}
+          {...thirdCardNumberDigitProps}
+          // {...navigationHandlers[2]}
           inputMode='numeric'
           maxLength={DIGITS}
           required
@@ -65,9 +81,9 @@ const CardNumberField = () => {
         <Input
           className='input-group-cell'
           type='password'
-          ref={registerRefs(3)}
-          {...fields[3].register}
-          {...navigationHandlers[3]}
+          // ref={registerRefs(3)}
+          {...fourthCardNumberDigitProps}
+          // {...navigationHandlers[3]}
           inputMode='numeric'
           maxLength={DIGITS}
           required
