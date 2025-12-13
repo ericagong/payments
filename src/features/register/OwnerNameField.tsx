@@ -1,15 +1,16 @@
-import useField from '@/hooks/atomic/useFieldLogic';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useFormController from '@/hooks/feature/useFormController';
+import useField from '@/hooks/feature/useField';
 
 const MAX_LENGTH = 30;
 const OwnerNameField = () => {
-  const [fieldProps, fieldState] = useFormController({
+  const [fieldProps, fieldState] = useField({
     name: 'ownerName',
-    maxLength: MAX_LENGTH,
-    required: true,
+    rules: {
+      maxLength: MAX_LENGTH,
+      required: true,
+    },
   });
 
   return (
