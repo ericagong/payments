@@ -1,31 +1,31 @@
-type FieldRules = {
+type InputRule = {
   sanitize?: (v: string) => string;
   normalize?: (v: string) => string;
-  // validation rules
   required?: boolean;
   minLength?: number;
   maxLength?: number;
   validate?: (v: string) => boolean;
 };
 
+type RuleErrorCode = 'required' | 'minLength' | 'maxLength' | 'invalid';
+
 const identity = (v: string) => v;
 
 const alwaysValid = () => true;
 
-const defaultFieldRules: Required<FieldRules> = {
+const defaultInputRule: Required<InputRule> = {
   sanitize: identity,
   normalize: identity,
-
   required: false,
   minLength: 0,
   maxLength: Infinity,
   validate: alwaysValid,
 };
 
-const ensureSafeFieldRules = (rules: FieldRules): Required<FieldRules> => ({
-  ...defaultFieldRules,
-  ...rules,
+const ensureSafeInputRule = (rule: InputRule): Required<InputRule> => ({
+  ...defaultInputRule,
+  ...rule,
 });
 
-export { ensureSafeFieldRules };
-export type { FieldRules };
+export { ensureSafeInputRule };
+export type { InputRule, RuleErrorCode };

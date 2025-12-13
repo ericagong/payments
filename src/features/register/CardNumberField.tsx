@@ -3,45 +3,33 @@ import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
 import { onlyNumeric } from '@/utils';
 // import useGroupNavigator from '@/hooks/feature/useGroupNavigator';
-import useField from '@/hooks/feature/useField';
+import useInput from '@/hooks/atomic/useInput';
 
 const DIGITS = 4;
 
 const CardNumberField = () => {
-  const [firstCardNumberDigitProps] = useField({
-    name: 'firstCardNumberDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: DIGITS,
-    },
+  const firstCardNumberDigitProps = useInput('firstCardNumberDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
-  const [secondCardNumberDigitProps] = useField({
-    name: 'secondCardNumberDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: DIGITS,
-    },
+  const secondCardNumberDigitProps = useInput('secondCardNumberDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
-  const [thirdCardNumberDigitProps] = useField({
-    name: 'thirdCardNumberDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: DIGITS,
-    },
+  const thirdCardNumberDigitProps = useInput('thirdCardNumberDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
-  const [fourthCardNumberDigitProps] = useField({
-    name: 'fourthCardNumberDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: DIGITS,
-    },
+  const fourthCardNumberDigitProps = useInput('fourthCardNumberDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: DIGITS,
   });
 
   // const { registerRefs, navigationHandlers } = useGroupNavigator(fields);

@@ -2,26 +2,20 @@ import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
-import useField from '@/hooks/feature/useField';
+import useInput from '@/hooks/atomic/useInput';
 
 const MAX_LENGTH = 1;
 
 const PasswordField = () => {
-  const [firstDigitFieldProps] = useField({
-    name: 'firstPasswordDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: MAX_LENGTH,
-    },
+  const firstDigitFieldProps = useInput('firstPasswordDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
-  const [secondDigitFieldProps] = useField({
-    name: 'secondPasswordDigit',
-    rules: {
-      sanitize: onlyNumeric,
-      required: true,
-      maxLength: MAX_LENGTH,
-    },
+  const secondDigitFieldProps = useInput('secondPasswordDigit', {
+    sanitize: onlyNumeric,
+    required: true,
+    maxLength: MAX_LENGTH,
   });
 
   // const { registerRefs, navigationHandlers } = useGroupNavigator([firstDigitField, secondDigitField]);
