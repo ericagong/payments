@@ -7,7 +7,6 @@ const MAX_LENGTH = 30;
 const OwnerNameField = () => {
   const ownerNameProps = useInput('ownerName', {
     maxLength: MAX_LENGTH,
-    required: true,
   });
 
   return (
