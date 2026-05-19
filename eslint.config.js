@@ -56,7 +56,6 @@ export default [
       'arrow-body-style': ['error', 'as-needed'],
       'prefer-template': 'warn',
       'object-shorthand': 'warn',
-      'prefer-destructuring': ['warn', { object: true, array: false }],
       'no-var': 'error',
 
       // import plugin
@@ -96,7 +95,7 @@ export default [
       // TypeScript 전용
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/consistent-type-imports': 'warn',
-      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
