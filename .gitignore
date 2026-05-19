@@ -12,8 +12,8 @@ node_modules/
 # Vite build output
 dist/
 
-# Vite dev server cache
-.vite/
+# Test coverage
+coverage/
 
 # ============================
 # 🔍 Lint Caches
@@ -42,3 +42,13 @@ dist/
 
 # macOS Finder file
 .DS_Store
+
+*storybook.log
+storybook-static
+
+# ============================
+# 🤖 Claude Code
+# ============================
+
+# Claude Code local state (worktrees, cache 등)
+.claude/

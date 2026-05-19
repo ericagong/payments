@@ -8,10 +8,9 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "src/types/style.d.ts", "vite.config.ts"]
+  "include": ["src", "vite.config.ts"]
 }

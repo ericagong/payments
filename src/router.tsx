@@ -1,17 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import Page1 from './pages/Page1';
-import Page2 from './pages/Page2';
-import Page3 from './pages/Page3';
-import Page4 from './pages/Page4';
-import Page5 from './pages/Page5';
+import CardListPage from './pages/CardListPage';
+import CardRegisterPage from './pages/CardRegisterPage';
 
+// 카드 목록이 출발점. 카드 추가 step 전환은 CardRegisterPage 내부 Stepper가 담당한다.
 const router = createBrowserRouter([
-  { path: '/', element: <Page1 /> },
-  { path: '/add', element: <Page2 /> },
-  { path: '/add/confirm', element: <Page3 /> },
-  { path: '/add/done', element: <Page4 /> },
-  { path: '/list', element: <Page5 /> },
+  { path: '/', element: <CardListPage /> },
+  { path: '/list', element: <CardListPage /> },
+  { path: '/register', element: <CardRegisterPage /> },
 ]);
 
 export default router;

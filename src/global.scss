@@ -1,0 +1,104 @@
+$primary-color: #53c8a5;
+$secondary-color: #383838;
+$tertiary-color: #a0a0a0;
+$dimmed-color: #e5e5e5;
+$app-background-color: #fff;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $dimmed-color;
+}
+
+.root {
+  position: relative;
+  width: 375px;
+  min-width: 375px;
+  height: 700px;
+  color: $secondary-color;
+  background-color: $app-background-color;
+}
+
+.app {
+  height: 100%;
+  padding: 30px 24px;
+  font-size: 16px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .to-prev::before {
+    font-size: 25px;
+    content: '<';
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 22px;
+  }
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: $primary-color;
+    transform: scale(1.1);
+  }
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
+
+  &--centered {
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    min-height: 400px;
+    text-align: center;
+  }
+}
+
+.completed-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.confirm-button {
+  padding: 12px 32px;
+  color: #fff;
+  background-color: $primary-color;
+  border-radius: 5px;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .to-next {
+    margin-left: auto;
+  }
+}
