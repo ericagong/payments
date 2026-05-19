@@ -16,8 +16,8 @@ const useFocusGroup = ({ groupSize }: UseFocusGroupParams): UseFocusGroupReturn 
   const refs = useRef<Array<HTMLElement | null>>(Array.from({ length: groupSize }, () => null));
 
   const registerRefs = useCallback(
-    (index: number) => ($element: HTMLElement | null) => {
-      refs.current[index] = $element;
+    (index: number) => (element: HTMLElement | null) => {
+      refs.current[index] = element;
     },
     [],
   );

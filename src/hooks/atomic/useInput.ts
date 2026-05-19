@@ -15,13 +15,13 @@ const useInput = (name: string, rule: InputRule) => {
     markTouched: () => form.markTouched(name),
   });
 
-  const inputProps = {
+  const fieldProps = {
     value,
     onChange: (e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
     onBlur,
   };
 
-  return inputProps;
+  return fieldProps;
 };
 
 export default useInput;
