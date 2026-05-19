@@ -1,0 +1,51 @@
+version: 2
+updates:
+  # npm 의존성: 월 1회, 그룹화된 PR
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      eslint:
+        patterns:
+          - eslint
+          - '@eslint/*'
+          - 'eslint-*'
+          - typescript-eslint
+      stylelint:
+        patterns:
+          - stylelint
+          - 'stylelint-*'
+      storybook:
+        patterns:
+          - storybook
+          - '@storybook/*'
+          - '@chromatic-com/storybook'
+      vitest:
+        patterns:
+          - vitest
+          - '@vitest/*'
+          - playwright
+      react:
+        patterns:
+          - react
+          - react-dom
+          - '@types/react'
+          - '@types/react-dom'
+      types:
+        patterns:
+          - '@types/*'
+        exclude-patterns:
+          - '@types/react'
+          - '@types/react-dom'
+    ignore:
+      # major 업데이트는 수동 검토 (학습 프로젝트 안정성 우선)
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+
+  # GitHub Actions: 월 1회
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
