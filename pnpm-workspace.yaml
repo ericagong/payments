@@ -1,0 +1,13 @@
+# pnpm 11 settings (pnpm-workspace.yaml is the canonical location since pnpm 11;
+# .npmrc is auth/registry only).
+
+# pnpm 11이 기본으로 1440분(1일) 이내 게시된 패키지를 차단(supply chain 보안 정책)한다.
+# dependabot이 의존성 업데이트의 1차 안전망이라 추가 차단은 install 마찰만 늘려 비활성화한다.
+# 정책을 강화하고 싶으면 이 값을 1440 등으로 올린다.
+minimumReleaseAge: 0
+
+# pnpm 11은 native binary build를 명시적 승인하도록 한다.
+# vite의 esbuild, storybook의 @parcel/watcher는 정상 의존성이라 허용한다.
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
