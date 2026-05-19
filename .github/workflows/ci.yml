@@ -38,6 +38,12 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Storybook interaction tests
+        run: pnpm test:storybook
+
       - name: Build
         run: pnpm build
 
