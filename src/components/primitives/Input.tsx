@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  return <input ref={ref} {...props} autoComplete='off' />;
+  return <input ref={ref} autoComplete='off' {...props} />;
 });
 
 Input.displayName = 'Input';
