@@ -23,6 +23,7 @@ const StepHeader = ({ onBack }: StepHeaderProps) => {
 
   return (
     <header className='app-header'>
+      {/* completed step에서는 폼을 되돌리는 게 의미 없으므로 뒤로가기 버튼을 숨긴다. */}
       {currentStep === 'register' && <Button className='to-prev' onClick={onBack} />}
       <div className='title'>{STEP_TITLES[currentStep]}</div>
     </header>

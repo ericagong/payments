@@ -3,6 +3,8 @@ import type { FormEvent } from 'react';
 
 type SubmitCallback = (values: Record<string, string>) => void;
 
+// 값 자체는 ref로 들고, 리렌더 트리거가 필요한 파생 상태(dirty/touched/errors/isValid)만 setState로 동기화한다.
+// 입력 시마다 모든 필드 리렌더가 일어나면 비싸지만, 현재 폼은 작아서 단순함을 우선했다.
 const useForm = () => {
   const formDataRef = useRef(new Map<string, string>());
   const dirtyFieldsRef = useRef<Record<string, boolean>>({});

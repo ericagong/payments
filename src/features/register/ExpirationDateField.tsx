@@ -14,6 +14,8 @@ const ExpirationDateField = () => {
     sanitize: onlyNumeric,
     required: true,
     maxLength: MAX_LENGTH,
+    // 사용자가 "1"만 입력하고 blur 하면 "01"로 정규화한다. (사용자 의도는 1월)
+    // 검증은 정규화 전 값 기준이라도 1~12 범위만 통과시키므로 두 단계는 독립적이다.
     normalize: (value: string) => value.padStart(DIGIT_COUNT, '0'),
     validate: (value: string) => 1 <= Number(value) && Number(value) <= 12,
   });

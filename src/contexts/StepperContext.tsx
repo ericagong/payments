@@ -18,6 +18,8 @@ type StepperProviderProps = PropsWithChildren<{
 const StepperProvider = ({ steps, initialStep, children }: StepperProviderProps) => {
   const [currentStep, setCurrentStep] = useState<string>(initialStep ?? steps[0]);
 
+  // currentStep이 바뀔 때만 next/prev/goTo 함수를 새로 만든다. steps prop이 안정적이라는 전제 하에
+  // Consumer가 currentStep 변경에만 반응하도록 한다.
   const value = useMemo(() => {
     const currentIndex = steps.indexOf(currentStep);
     return {
