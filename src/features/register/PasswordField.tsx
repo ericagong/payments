@@ -1,10 +1,12 @@
-import { onlyNumeric } from '@/utils';
 import Box from '@/components/primitives/Box';
 import Input from '@/components/primitives/Input';
 import Label from '@/components/primitives/Label';
+import useAutoAdvance from '@/hooks/atomic/useAutoAdvance';
 import useInput from '@/hooks/atomic/useInput';
+import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 1;
+const CELL_COUNT = 2;
 
 const PasswordField = () => {
   const firstDigitFieldProps = useInput('firstPasswordDigit', {
@@ -18,7 +20,7 @@ const PasswordField = () => {
     maxLength: MAX_LENGTH,
   });
 
-  // const { registerRefs, navigationHandlers } = useGroupNavigator([firstDigitField, secondDigitField]);
+  const auto = useAutoAdvance({ length: CELL_COUNT, cellMaxLength: MAX_LENGTH });
 
   return (
     <Box className='field-container' style={{ width: '50%' }}>
@@ -27,27 +29,35 @@ const PasswordField = () => {
       </Box>
       <Box className='field-input-group-container seperated'>
         <Input
+          ref={auto.register(0)}
           className='field-input'
           type='password'
-          // ref={registerRefs(0)}
           {...firstDigitFieldProps}
-          // {...navigationHandlers[0]}
+          onChange={(e) => {
+            firstDigitFieldProps.onChange(e);
+            auto.onChange(0, e.target.value);
+          }}
+          onKeyDown={(e) => auto.onKeyDown(0, e)}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
         />
         <Input
+          ref={auto.register(1)}
           className='field-input'
           type='password'
-          // ref={registerRefs(1)}
           {...secondDigitFieldProps}
-          // {...navigationHandlers[1]}
+          onKeyDown={(e) => auto.onKeyDown(1, e)}
           maxLength={MAX_LENGTH}
           required
           inputMode='numeric'
         />
-        <Box className='input-group-cell filled'>.</Box>
-        <Box className='input-group-cell filled'>.</Box>
+        <Box className='input-group-cell filled' aria-hidden>
+          .
+        </Box>
+        <Box className='input-group-cell filled' aria-hidden>
+          .
+        </Box>
       </Box>
     </Box>
   );
