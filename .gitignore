@@ -45,3 +45,10 @@ coverage/
 
 *storybook.log
 storybook-static
+
+# ============================
+# 🤖 Claude Code
+# ============================
+
+# Claude Code local state (worktrees, cache 등)
+.claude/

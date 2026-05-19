@@ -22,6 +22,7 @@ export default [
       'package.json',
       'storybook-static',
       'coverage',
+      '.claude',
       '**/vite.config.*',
     ],
   },
