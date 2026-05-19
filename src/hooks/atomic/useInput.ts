@@ -7,7 +7,7 @@ import { useFormContext } from '@/contexts/FormContext';
 const useInput = (name: string, rule: InputRule) => {
   const form = useFormContext();
 
-  const { value, errorCode, onChange, onBlur } = useInputLogic({
+  const { value, onChange, onBlur } = useInputLogic({
     rule,
     getValue: () => form.getValue(name),
     setValue: (v) => form.setValue(name, v),
