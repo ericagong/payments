@@ -5,17 +5,17 @@
 }
 
 .empty-card {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
   width: 208px;
   height: 130px;
   padding: 14px 16px 12px;
   color: #525252;
   background-color: #d2d2d2;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
 
 .card-top {
@@ -58,5 +58,5 @@
 }
 
 .card-text-placeholder {
-  color: rgba(82, 82, 82, 0.45);
+  color: rgb(82 82 82 / 45%);
 }
