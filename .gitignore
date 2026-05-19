@@ -42,3 +42,6 @@ dist/
 
 # macOS Finder file
 .DS_Store
+
+*storybook.log
+storybook-static
