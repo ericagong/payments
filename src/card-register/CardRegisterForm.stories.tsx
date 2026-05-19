@@ -3,7 +3,7 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import CardRegisterForm from './CardRegisterForm';
 
-import { FormProvider } from '@/contexts/FormContext';
+import { FormProvider } from '@/form/FormContext';
 
 
 const meta: Meta<typeof CardRegisterForm> = {

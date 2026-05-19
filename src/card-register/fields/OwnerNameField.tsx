@@ -1,7 +1,7 @@
-import Box from '@/components/primitives/Box';
-import Input from '@/components/primitives/Input';
-import Label from '@/components/primitives/Label';
-import useInput from '@/hooks/atomic/useInput';
+import Box from '@/primitives/Box';
+import Input from '@/primitives/Input';
+import Label from '@/primitives/Label';
+import useInput from '@/form/useInput';
 
 const MAX_LENGTH = 30;
 const OwnerNameField = () => {

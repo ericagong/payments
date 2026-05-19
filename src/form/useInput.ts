@@ -1,8 +1,8 @@
 import type { ChangeEvent } from 'react';
 
-import useInputLogic from '@/hooks/atomic/useInputLogic';
-import type { InputRule } from '@/hooks/feature/inputRule';
-import { useFormContext } from '@/contexts/FormContext';
+import useInputLogic from '@/form/useInputLogic';
+import type { InputRule } from '@/form/inputRule';
+import { useFormContext } from '@/form/FormContext';
 
 const useInput = (name: string, rule: InputRule) => {
   const form = useFormContext();

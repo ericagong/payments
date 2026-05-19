@@ -3,7 +3,7 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import OwnerNameField from './OwnerNameField';
 
-import { FormProvider } from '@/contexts/FormContext';
+import { FormProvider } from '@/form/FormContext';
 
 
 const meta: Meta<typeof OwnerNameField> = {

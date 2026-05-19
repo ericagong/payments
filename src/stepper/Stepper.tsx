@@ -1,7 +1,7 @@
 import { Children, isValidElement } from 'react';
 import type { ReactNode } from 'react';
 
-import { useStepperContext } from '@/contexts/StepperContext';
+import { useStepperContext } from '@/stepper/StepperContext';
 
 type StepProps = {
   name: string;

@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import useNextButtonState from './useNextButtonState';
 
-import { FormProvider, useFormContext } from '@/contexts/FormContext';
+import { FormProvider, useFormContext } from '@/form/FormContext';
 
 
 // FormContext 안에서 hook을 실행하기 위한 래퍼

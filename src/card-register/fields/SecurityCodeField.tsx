@@ -1,8 +1,8 @@
-import useInput from '@/hooks/atomic/useInput';
+import useInput from '@/form/useInput';
 import { onlyNumeric } from '@/utils';
-import Box from '@/components/primitives/Box';
-import Input from '@/components/primitives/Input';
-import Label from '@/components/primitives/Label';
+import Box from '@/primitives/Box';
+import Input from '@/primitives/Input';
+import Label from '@/primitives/Label';
 
 const MAX_LENGTH = 3;
 

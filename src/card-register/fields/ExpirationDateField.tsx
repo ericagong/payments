@@ -1,8 +1,8 @@
-import Box from '@/components/primitives/Box';
-import Input from '@/components/primitives/Input';
-import Label from '@/components/primitives/Label';
-import useAutoAdvance from '@/hooks/atomic/useAutoAdvance';
-import useInput from '@/hooks/atomic/useInput';
+import Box from '@/primitives/Box';
+import Input from '@/primitives/Input';
+import Label from '@/primitives/Label';
+import useAutoAdvance from '@/card-register/useAutoAdvance';
+import useInput from '@/form/useInput';
 import { onlyNumeric } from '@/utils';
 
 const MAX_LENGTH = 2;

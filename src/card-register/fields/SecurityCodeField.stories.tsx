@@ -3,7 +3,7 @@ import { expect, userEvent } from 'storybook/test';
 
 import SecurityCodeField from './SecurityCodeField';
 
-import { FormProvider } from '@/contexts/FormContext';
+import { FormProvider } from '@/form/FormContext';
 
 
 const meta: Meta<typeof SecurityCodeField> = {

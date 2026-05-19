@@ -1,6 +1,6 @@
-import type { InputRule } from '@/hooks/feature/inputRule';
-import { transformValue, normalizeValue, validateValue } from '@/hooks/feature/valuePipeline';
-import { ensureSafeInputRule } from '@/hooks/feature/inputRule';
+import type { InputRule } from '@/form/inputRule';
+import { transformValue, normalizeValue, validateValue } from '@/form/valuePipeline';
+import { ensureSafeInputRule } from '@/form/inputRule';
 
 type UseInputLogicParams = {
   rule: InputRule;

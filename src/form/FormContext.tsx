@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import type { PropsWithChildren } from 'react';
 
-import useForm from '@/hooks/atomic/useForm';
+import useForm from '@/form/useForm';
 
 type FormContextValue = ReturnType<typeof useForm> | null;
 

@@ -1,5 +1,5 @@
-import { useFormContext } from '@/contexts/FormContext';
-import { formatCardNumber, maskAfterEighth } from '@/features/register/cardNumberFormat';
+import { useFormContext } from '@/form/FormContext';
+import { formatCardNumber, maskAfterEighth } from '@/card-register/cardNumberFormat';
 
 import './card-preview.scss';
 

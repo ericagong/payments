@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
-import CardPreview from '@/components/CardPreview/CardPreview';
-import Button from '@/components/primitives/Button';
-import { FormProvider } from '@/contexts/FormContext';
-import { StepperProvider, useStepperContext } from '@/contexts/StepperContext';
-import CardRegisterForm from '@/features/register/CardRegisterForm';
-import Stepper from '@/features/stepper/Stepper';
+import CardPreview from '@/card-register/CardPreview';
+import Button from '@/primitives/Button';
+import { FormProvider } from '@/form/FormContext';
+import { StepperProvider, useStepperContext } from '@/stepper/StepperContext';
+import CardRegisterForm from '@/card-register/CardRegisterForm';
+import Stepper from '@/stepper/Stepper';
 
 const STEPS = ['register', 'completed'] as const;
 

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import Button from '@/components/primitives/Button';
+import Button from '@/primitives/Button';
 
 import './card-list-page.scss';
 

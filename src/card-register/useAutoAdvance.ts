@@ -1,6 +1,6 @@
 import type { KeyboardEvent } from 'react';
 
-import useFocusGroup from '@/hooks/atomic/useFocusGroup';
+import useFocusGroup from '@/card-register/useFocusGroup';
 
 type UseAutoAdvanceParams = {
   length: number;

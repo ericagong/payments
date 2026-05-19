@@ -1,14 +1,14 @@
 
-import CardNumberField from './CardNumberField';
-import ExpirationDateField from './ExpirationDateField';
-import OwnerNameField from './OwnerNameField';
-import PasswordField from './PasswordField';
-import SecurityCodeField from './SecurityCodeField';
+import CardNumberField from './fields/CardNumberField';
+import ExpirationDateField from './fields/ExpirationDateField';
+import OwnerNameField from './fields/OwnerNameField';
+import PasswordField from './fields/PasswordField';
+import SecurityCodeField from './fields/SecurityCodeField';
 import useNextButtonState from './useNextButtonState';
 
-import { useFormContext } from '@/contexts/FormContext';
-import Form from '@/components/primitives/Form';
-import Button from '@/components/primitives/Button';
+import { useFormContext } from '@/form/FormContext';
+import Form from '@/primitives/Form';
+import Button from '@/primitives/Button';
 
 import './field.scss';
 

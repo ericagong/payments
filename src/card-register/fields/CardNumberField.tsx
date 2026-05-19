@@ -1,13 +1,13 @@
-import { formatCardNumber, maskAfterEighth } from './cardNumberFormat';
+import { formatCardNumber, maskAfterEighth } from '../cardNumberFormat';
 
-import Box from '@/components/primitives/Box';
-import Input from '@/components/primitives/Input';
-import Label from '@/components/primitives/Label';
-import useInput from '@/hooks/atomic/useInput';
-import useOverlayLayer from '@/hooks/atomic/useOverlayLayer';
+import Box from '@/primitives/Box';
+import Input from '@/primitives/Input';
+import Label from '@/primitives/Label';
+import useInput from '@/form/useInput';
+import useOverlayLayer from '@/card-register/useOverlayLayer';
 import { onlyNumeric } from '@/utils';
 
-import './overlay.scss';
+import '../overlay.scss';
 
 const MAX_LENGTH = 16;
 const PLACEHOLDER = 'XXXX-XXXX-XXXX-XXXX';

@@ -3,7 +3,7 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import CardNumberField from './CardNumberField';
 
-import { FormProvider } from '@/contexts/FormContext';
+import { FormProvider } from '@/form/FormContext';
 
 
 const meta: Meta<typeof CardNumberField> = {

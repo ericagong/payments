@@ -1,4 +1,4 @@
-import { useFormContext } from '@/contexts/FormContext';
+import { useFormContext } from '@/form/FormContext';
 
 type RequiredFieldSpec = {
   name: string;
