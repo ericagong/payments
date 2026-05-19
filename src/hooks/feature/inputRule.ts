@@ -9,17 +9,13 @@ type InputRule = {
 
 type RuleErrorCode = 'required' | 'minLength' | 'maxLength' | 'invalid';
 
-const identity = (v: string) => v;
-
-const alwaysValid = () => true;
-
 const defaultInputRule: Required<InputRule> = {
-  sanitize: identity,
-  normalize: identity,
+  sanitize: (value) => value,
+  normalize: (value) => value,
   required: false,
   minLength: 0,
   maxLength: Infinity,
-  validate: alwaysValid,
+  validate: () => true,
 };
 
 const ensureSafeInputRule = (rule: InputRule): Required<InputRule> => ({
