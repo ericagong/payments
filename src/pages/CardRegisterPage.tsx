@@ -1,79 +1,77 @@
 import { useNavigate } from 'react-router-dom';
 
-import CardRegisterForm from '@/features/register/CardRegisterForm';
+import CardPreview from '@/components/CardPreview/CardPreview';
 import Button from '@/components/primitives/Button';
+import { FormProvider } from '@/contexts/FormContext';
+import { StepperProvider, useStepperContext } from '@/contexts/StepperContext';
+import CardRegisterForm from '@/features/register/CardRegisterForm';
+import Stepper from '@/features/stepper/Stepper';
+
+const STEPS = ['register', 'completed'] as const;
+
+const STEP_TITLES: Record<string, string> = {
+  register: '카드 추가',
+  completed: '카드 등록 완료',
+};
+
+type StepHeaderProps = {
+  onBack: () => void;
+};
+
+const StepHeader = ({ onBack }: StepHeaderProps) => {
+  const { currentStep } = useStepperContext();
+
+  return (
+    <header className='app-header'>
+      {currentStep === 'register' && <Button className='to-prev' onClick={onBack} />}
+      <div className='title'>{STEP_TITLES[currentStep]}</div>
+    </header>
+  );
+};
+
+const RegisterStep = () => {
+  const stepper = useStepperContext();
+
+  return (
+    <>
+      <CardPreview />
+      <main className='app-main'>
+        <CardRegisterForm onSubmitted={() => stepper.next()} />
+      </main>
+    </>
+  );
+};
+
+type CompletedStepProps = {
+  onConfirm: () => void;
+};
+
+const CompletedStep = ({ onConfirm }: CompletedStepProps) => (
+  <main className='app-main app-main--centered'>
+    <h2 className='completed-title'>카드 등록이 완료되었습니다.</h2>
+    <Button className='to-next confirm-button' onClick={onConfirm}>
+      확인
+    </Button>
+  </main>
+);
 
 const CardRegisterPage = () => {
   const navigate = useNavigate();
 
   return (
-    <>
-      <header className='app-header'>
-        <Button className='to-prev' onClick={() => navigate('/list')} />
-        <div className='title'>카드 추가</div>
-      </header>
-
-      {/* <div className='card-box'>
-            <div className='empty-card'>
-              <div className='card-top' />
-              <div className='card-middle'>
-                <div className='small-card-chip' />
-              </div>
-              <div className='card-bottom'>
-                <div className='card-bottom-info'>
-                  <span className='card-text'>NAME</span>
-                  <span className='card-text'>MM / YY</span>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
-      <main className='app-main'>
-        <CardRegisterForm />
-      </main>
-
-      {/* <div className='input-container'>
-            <span className='input-title'>카드 번호</span>
-            <div className='input-box'>
-              <input className='input-basic' type='text' />
-              <input className='input-basic' type='text' />
-              <input className='input-basic' type='password' />
-              <input className='input-basic' type='password' />
-            </div>
-          </div>
-
-          <div className='input-container'>
-            <span className='input-title'>만료일</span>
-            <div className='input-box w-50'>
-              <input className='input-basic' type='text' placeholder='MM' />
-              <input className='input-basic' type='text' placeholder='YY' />
-            </div>
-          </div>
-
-          <div className='input-container'>
-            <span className='input-title'>카드 소유자 이름(선택)</span>
-            <input className='input-basic' placeholder='카드에 표시된 이름과 동일하게 입력하세요.' />
-          </div>
-
-          <div className='input-container'>
-            <span className='input-title'>보안코드(CVC/CVV)</span>
-            <input className='input-basic w-25' type='password' />
-          </div>
-
-          <div className='input-container'>
-            <span className='input-title'>카드 비밀번호</span>
-            <input className='input-basic w-15' type='password' />
-            <input className='input-basic w-15' type='password' />
-            <input className='input-basic w-15' type='password' />
-            <input className='input-basic w-15' type='password' />
-          </div> */}
-
-      <footer className='app-footer'>
-        <Button className='to-next' onClick={() => navigate('/registered')}>
-          다음
-        </Button>
-      </footer>
-    </>
+    <StepperProvider steps={STEPS}>
+      <FormProvider>
+        <StepHeader onBack={() => navigate('/list')} />
+        <Stepper>
+          <Stepper.Step name='register'>
+            <RegisterStep />
+          </Stepper.Step>
+          <Stepper.Step name='completed'>
+            <CompletedStep onConfirm={() => navigate('/list')} />
+          </Stepper.Step>
+        </Stepper>
+      </FormProvider>
+    </StepperProvider>
   );
 };
 

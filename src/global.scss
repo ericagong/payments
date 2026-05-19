@@ -70,6 +70,27 @@ button {
   display: flex;
   flex-direction: column;
   margin: 30px 0;
+
+  &--centered {
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    min-height: 400px;
+    text-align: center;
+  }
+}
+
+.completed-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.confirm-button {
+  padding: 12px 32px;
+  color: #fff;
+  background-color: $primary-color;
+  border-radius: 5px;
 }
 
 .app-footer {
