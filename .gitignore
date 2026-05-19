@@ -12,8 +12,8 @@ node_modules/
 # Vite build output
 dist/
 
-# Vite dev server cache
-.vite/
+# Test coverage
+coverage/
 
 # ============================
 # 🔍 Lint Caches
